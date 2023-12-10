@@ -79,7 +79,7 @@
       { "name": "Sécurité", "component": "" },
       { "name": "Rideaux", "component": "" },
       { "name": "Aide informatique", "component": "" },
-      { "name": "Levée d'objets lourds", "component": "" }
+      { "name": "Autre", "component": "" }
     ]
   }
 }

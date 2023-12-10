@@ -2,34 +2,33 @@ import Data from "../../data.json";
 
 const SideBarCat = () => {
   const home = Data.categories.home;
-  console.log(home);
 
   return (
-    <div className="mb-5">
-      <h5 className="uppercase text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+    <div>
+      <h5 className="uppercase text-sm font-medium text-gray-500 mb-4">
         Categories
       </h5>
       <ul>
-        {home.map((mov, i) => {
-          return (
-            <li className="mb-3">
-              <button
-                type="button"
-                className="flex items-center justify-between group w-full"
-              >
-                <span className="flex items-center">
-                  <div></div>
-                  <span className="text-gray-900 dark:text-white text-base font-medium group-hover:text-blue-700 dark:group-hover:text-blue-600">
-                    {mov.name}
-                  </span>
+        {home.map((mov, i) => (
+          <li key={i} className="mb-3">
+            <button
+              type="button"
+              className="flex items-center justify-between group w-full"
+            >
+              <span className="flex items-center">
+                <span
+                  className="text-gray-900 text-base font-medium
+                group-hover:text-blue-700 text-left"
+                >
+                  {mov.name}
                 </span>
-                <span className="text-base font-medium text-gray-500 dark:text-gray-400 group-hover:text-blue-700 dark:group-hover:text-blue-600">
-                  (0)
-                </span>
-              </button>
-            </li>
-          );
-        })}
+              </span>
+              <span className="text-base font-medium text-gray-500 group-hover:text-blue-700">
+                (0)
+              </span>
+            </button>
+          </li>
+        ))}
       </ul>
     </div>
   );

@@ -2,7 +2,15 @@ import { useState } from "react";
 import NavBar from "../components/navBar/navBar";
 import SearchFilter from "../components/contentSearch/searchFilter";
 
-export default function Home() {
+interface homeP {
+  logedP: boolean;
+  setLogedP: (i: boolean) => void;
+  userDataP: any;
+  loadingP: boolean;
+  setLoadingP: (i: boolean) => void;
+}
+
+const Home: React.FC<homeP> = (p) => {
   const [selectedCat, setSelectedCat] = useState(0);
   const [typeCat, setTypeCat] = useState(0);
 
@@ -20,6 +28,9 @@ export default function Home() {
         selectedCatP={selectedCat}
         setSelectedCatP={setSelectedCat}
         navigationP={navigation}
+        logedP={p.logedP}
+        setLogedP={p.setLogedP}
+        userDataP={p.userDataP}
       />
       <SearchFilter
         selectedCatP={selectedCat}
@@ -29,4 +40,6 @@ export default function Home() {
       />
     </>
   );
-}
+};
+
+export default Home;
