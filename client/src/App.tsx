@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/home";
 import E404 from "./pages/404";
 import Login from "./pages/login";
 import Register from "./pages/register";
@@ -7,6 +6,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Profile from "./pages/myProfile";
 import Loading from "./pages/loading";
+import Home from "./pages/home";
+import HomeTest from "./pages/homeTest";
 
 export default function App(): React.ReactElement {
   const [loged, setLoged] = useState(false);
@@ -80,7 +81,18 @@ export default function App(): React.ReactElement {
             }
           />
         </Route>
-
+        <Route
+          path="/test"
+          element={
+            <HomeTest
+              userDataP={userData}
+              logedP={loged}
+              loadingP={loading}
+              setLogedP={setLoged}
+              setLoadingP={setLoading}
+            />
+          }
+        />
         <Route path="*" element={<E404 />} />
       </Routes>
     </BrowserRouter>

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import NavBar from "../components/navBar/navBar";
-import SearchFilter from "../components/contentSearch/searchFilter";
+import HeroSearch from "../components/heroSearch/heroSearch";
+import NavBar from "../components/navbar/navBar";
 
 interface homeP {
   logedP: boolean;
@@ -11,33 +11,17 @@ interface homeP {
 }
 
 const Home: React.FC<homeP> = (p) => {
-  const [selectedCat, setSelectedCat] = useState(0);
-  const [typeCat, setTypeCat] = useState(0);
-
-  const navigation: any = [
-    { name: "Maison", href: "#", current: selectedCat === 0 },
-    { name: "Personnel", href: "#", current: selectedCat === 1 },
-    { name: "Extérieur", href: "#", current: selectedCat === 2 },
-    { name: "Éducatif", href: "#", current: selectedCat === 3 },
-    { name: "Santé ", href: "#", current: selectedCat === 4 },
-  ];
+  const [typeSelc, setTypeSelc] = useState<number>(0);
 
   return (
     <>
-      <NavBar
-        selectedCatP={selectedCat}
-        setSelectedCatP={setSelectedCat}
-        navigationP={navigation}
-        logedP={p.logedP}
-        setLogedP={p.setLogedP}
-        userDataP={p.userDataP}
-      />
-      <SearchFilter
-        selectedCatP={selectedCat}
-        setSelectedCatP={setSelectedCat}
-        typeCatP={typeCat}
-        setTypeCat={setTypeCat}
-      />
+      <div className="flex flex-col h-screen">
+        <NavBar />
+        <HeroSearch typeSelc={typeSelc} setTypeSelc={setTypeSelc} />
+      </div>
+      <div className="flex-shrink-0 bg-blue-300">
+        {/* <h1>hamid lamba</h1> */}
+      </div>
     </>
   );
 };
