@@ -1,19 +1,43 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
-const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-];
+interface navbar {
+  loged: boolean;
+  userData: any;
+}
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-const NavBar = () => {
+const NavBar: React.FC<navbar> = ({ loged, userData }) => {
+  const navigate = useNavigate();
+  const [navigation, setNavigation] = useState<
+    { name: string; current: boolean; event: () => void }[] | null
+  >([]);
+
+  useEffect(() => {
+    if (loged) {
+      setNavigation(null);
+    } else {
+      setNavigation([
+        { name: "Accueil", current: true, event: () => navigate("/") },
+        {
+          name: "Explorer",
+          current: false,
+          event: () => navigate("/categories"),
+        },
+        {
+          name: "Se connecter/S'inscrire",
+          current: false,
+          event: () => navigate("/login"),
+        },
+      ]);
+    }
+  }, [loged, navigate]);
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -35,98 +59,137 @@ const NavBar = () => {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
                   <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    className="h-8 w-auto cursor-pointer"
+                    src="\img\icons\noBgLogo.png"
                     alt="Your Company"
+                    onClick={() => navigate("/")}
                   />
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium",
-                        )}
-                        aria-current={item.current ? "page" : undefined}
-                      >
-                        {item.name}
-                      </a>
-                    ))}
+                    {navigation ? (
+                      navigation.map((item) => (
+                        <button
+                          key={item.name}
+                          className={classNames(
+                            item.current
+                              ? "bg-gray-900 text-white"
+                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                            "rounded-md px-3 py-2 text-sm font-medium",
+                          )}
+                          aria-current={item.current ? "page" : undefined}
+                          onClick={item.event}
+                        >
+                          {item.name}
+                        </button>
+                      ))
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 </div>
 
-                {/* Profile dropdown */}
-                <Menu as="div" className="relative ml-3">
-                  <div>
-                    <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                      <span className="absolute -inset-1.5" />
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700",
+                {loged ? (
+                  <>
+                    <div className="pr-3 border-r-2">
+                      <svg
+                        className="w-5 h-5  text-white cursor-pointer"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 18"
+                        fill="currentColor"
+                        onClick={() => navigate("/msg")}
+                      >
+                        <path
+                          d="M18 4H16V9C16 10.0609 15.5786 11.0783 14.8284 11.8284C14.0783 12.5786 13.0609 13 12 13H9L6.846 14.615C7.17993 14.8628 7.58418 14.9977 8 15H11.667L15.4 17.8C15.5731 17.9298 15.7836 18 16 18C16.2652 18 16.5196 17.8946 16.7071 17.7071C16.8946 17.5196 17 17.2652 17 17V15H18C18.5304 15 19.0391 14.7893 19.4142 14.4142C19.7893 14.0391 20 13.5304 20 13V6C20 5.46957 19.7893 4.96086 19.4142 4.58579C19.0391 4.21071 18.5304 4 18 4Z"
+                          fill="currentColor"
+                        />
+                        <path
+                          d="M12 0H2C1.46957 0 0.960859 0.210714 0.585786 0.585786C0.210714 0.960859 0 1.46957 0 2V9C0 9.53043 0.210714 10.0391 0.585786 10.4142C0.960859 10.7893 1.46957 11 2 11H3V13C3 13.1857 3.05171 13.3678 3.14935 13.5257C3.24698 13.6837 3.38668 13.8114 3.55279 13.8944C3.71889 13.9775 3.90484 14.0126 4.08981 13.996C4.27477 13.9793 4.45143 13.9114 4.6 13.8L8.333 11H12C12.5304 11 13.0391 10.7893 13.4142 10.4142C13.7893 10.0391 14 9.53043 14 9V2C14 1.46957 13.7893 0.960859 13.4142 0.585786C13.0391 0.210714 12.5304 0 12 0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+
+                    <Menu as="div" className="relative ml-3">
+                      <div>
+                        <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                          <span className="absolute -inset-1.5" />
+                          <span className="sr-only">Open user menu</span>
+                          <img
+                            className="h-8 w-8 rounded-full"
+                            src={
+                              userData.pfpLink
+                                ? userData.pfpLink
+                                : "/img/icons/defaultPpf.png"
+                            }
+                            alt=""
+                          />
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items
+                          className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md 
+                        bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        >
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700 text-left w-full",
+                                )}
+                                onClick={() =>
+                                  navigate(`/user/profile/${userData._id}`)
+                                }
+                              >
+                                Votre profile
+                              </button>
                             )}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700",
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700 text-left w-full",
+                                )}
+                                onClick={() => navigate("/profile/settings")}
+                              >
+                                Devenir un vendeur
+                              </button>
                             )}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700",
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700 text-left w-full",
+                                )}
+                                onClick={() => navigate("/logout")}
+                              >
+                                Se déconnecter
+                              </button>
                             )}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
+                          </Menu.Item>
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>
@@ -134,22 +197,26 @@ const NavBar = () => {
           {/* Mobile */}
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
-              {navigation.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className={classNames(
-                    item.current
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block rounded-md px-3 py-2 text-base font-medium",
-                  )}
-                  aria-current={item.current ? "page" : undefined}
-                >
-                  {item.name}
-                </Disclosure.Button>
-              ))}
+              {navigation ? (
+                navigation.map((item) => (
+                  <Disclosure.Button
+                    key={item.name}
+                    as="button"
+                    className={classNames(
+                      item.current
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "block rounded-md px-3 py-2 text-base font-medium",
+                    )}
+                    aria-current={item.current ? "page" : undefined}
+                    onClick={item.event}
+                  >
+                    {item.name}
+                  </Disclosure.Button>
+                ))
+              ) : (
+                <></>
+              )}
             </div>
           </Disclosure.Panel>
         </>

@@ -16,7 +16,7 @@ const Home: React.FC<homeP> = (p) => {
   return (
     <>
       <div className="flex flex-col h-screen">
-        <NavBar />
+        <NavBar loged={p.logedP} userData={p.userDataP} />
         <HeroSearch typeSelc={typeSelc} setTypeSelc={setTypeSelc} />
       </div>
       <div className="flex-shrink-0 bg-blue-300">

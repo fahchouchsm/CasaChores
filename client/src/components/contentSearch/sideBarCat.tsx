@@ -9,7 +9,7 @@ const SideBarCat = () => {
         Categories
       </h5>
       <ul>
-        {home.map((mov, i) => (
+        {home.map((mov: any, i: any) => (
           <li key={i} className="mb-3">
             <button
               type="button"

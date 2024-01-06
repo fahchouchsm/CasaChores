@@ -70,7 +70,7 @@ const Register = () => {
       .then((response) => {
         setLoading(false);
         if (response.status === 200 && response.statusText === "OK") {
-          navigate("/");
+          window.location.href = "/";
         }
       })
       .catch((error) => {

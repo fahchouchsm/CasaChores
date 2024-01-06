@@ -3,11 +3,14 @@ import E404 from "./pages/404";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Profile from "./pages/myProfile";
+import axios, { AxiosResponse } from "axios";
 import Loading from "./pages/loading";
 import Home from "./pages/home";
-import HomeTest from "./pages/homeTest";
+import Profile from "./pages/profile";
+import Logout from "./pages/logout";
+import Account from "./components/profile/settings/settingNav";
+import HomeFilter from "./pages/homeFilter";
+import SettingNav from "./components/profile/settings/settingNav";
 
 export default function App(): React.ReactElement {
   const [loged, setLoged] = useState(false);
@@ -17,10 +20,12 @@ export default function App(): React.ReactElement {
   useEffect(() => {
     axios
       .get("http://localhost:3001/jwt", { withCredentials: true })
-      .then((response) => {
+      .then((response: AxiosResponse) => {
         if (response.status === 200) {
           setLoged(true);
           setUserData(response.data.userData);
+        } else {
+          window.location.href = "/";
         }
       })
       .catch((err) => {
@@ -34,12 +39,17 @@ export default function App(): React.ReactElement {
   }, [loged]);
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div className="h-screen">
+        <Loading />
+      </div>
+    );
   }
 
   return (
     <BrowserRouter>
       <Routes>
+        {/* Index */}
         <Route path="/">
           <Route
             index
@@ -56,40 +66,82 @@ export default function App(): React.ReactElement {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
         </Route>
-        <Route path="/user">
-          <Route
-            path=":id"
-            element={
-              <Profile
-                userDataP={userData}
-                loadingP={loading}
-                setLoadingP={setLoading}
-                setLogedP={setLoged}
-              />
-            }
-          />
-          <Route
-            path="*"
-            element={
-              <Home
-                userDataP={userData}
-                logedP={loged}
-                loadingP={loading}
-                setLogedP={setLoged}
-                setLoadingP={setLoading}
-              />
-            }
-          />
-        </Route>
+        {/* Testing */}
         <Route
           path="/test"
           element={
-            <HomeTest
+            <HomeFilter
               userDataP={userData}
               logedP={loged}
               loadingP={loading}
               setLogedP={setLoged}
               setLoadingP={setLoading}
+            />
+          }
+        />
+        {/* Search */}
+        <Route
+          path="/search/:query"
+          element={
+            <Home
+              logedP={loged}
+              setLogedP={setLoged}
+              userDataP={userData}
+              loadingP={loading}
+              setLoadingP={setLoading}
+            />
+          }
+        />
+        {/* User */}
+        <Route path="/user">
+          <Route
+            path="profile/:id?"
+            element={
+              <Profile
+                loading={loading}
+                setLoading={setLoading}
+                userData={userData}
+                setUserData={setUserData}
+                loged={loged}
+              />
+            }
+          />
+          {/* Settings */}
+          <Route path="settings">
+            <Route
+              path=":id?"
+              index
+              element={
+                <SettingNav
+                  userData={userData}
+                  loged={loged}
+                  setUserData={setUserData}
+                />
+              }
+            />
+            <Route
+              path="account/:id"
+              element={
+                <Account
+                  loged={loged}
+                  userData={userData}
+                  setUserData={setUserData}
+                />
+              }
+            />
+            <Route
+              path="notification/:id"
+              //todo
+            />
+          </Route>
+        </Route>
+        <Route
+          path="/logout"
+          element={
+            <Logout
+              loading={loading}
+              setLoading={setLoading}
+              userData={userData}
             />
           }
         />

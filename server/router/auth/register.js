@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const userSchema = require("../../schema/UserSchema");
+const userSchema = require("../../schema/userSchema");
 const bcrypt = require("bcrypt");
 const salt = 10;
 const _ = require("lodash");
