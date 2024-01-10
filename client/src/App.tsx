@@ -9,8 +9,9 @@ import Home from "./pages/home";
 import Profile from "./pages/profile";
 import Logout from "./pages/logout";
 import Account from "./components/profile/settings/settingNav";
-import HomeFilter from "./pages/homeFilter";
 import SettingNav from "./components/profile/settings/settingNav";
+import BecomeSeller from "./pages/becomeSeller";
+import EditAccount from "./pages/editAccout";
 
 export default function App(): React.ReactElement {
   const [loged, setLoged] = useState(false);
@@ -51,47 +52,14 @@ export default function App(): React.ReactElement {
       <Routes>
         {/* Index */}
         <Route path="/">
-          <Route
-            index
-            element={
-              <Home
-                userDataP={userData}
-                logedP={loged}
-                loadingP={loading}
-                setLogedP={setLoged}
-                setLoadingP={setLoading}
-              />
-            }
-          />
+          <Route index element={<Home userData={userData} loged={loged} />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
         </Route>
         {/* Testing */}
-        <Route
-          path="/test"
-          element={
-            <HomeFilter
-              userDataP={userData}
-              logedP={loged}
-              loadingP={loading}
-              setLogedP={setLoged}
-              setLoadingP={setLoading}
-            />
-          }
-        />
+        <Route path="/test" element={<BecomeSeller />} />
         {/* Search */}
-        <Route
-          path="/search/:query"
-          element={
-            <Home
-              logedP={loged}
-              setLogedP={setLoged}
-              userDataP={userData}
-              loadingP={loading}
-              setLoadingP={setLoading}
-            />
-          }
-        />
+        {/* todo */}
         {/* User */}
         <Route path="/user">
           <Route
@@ -134,6 +102,12 @@ export default function App(): React.ReactElement {
               //todo
             />
           </Route>
+          <Route path="edit">
+            <Route
+              path="account/:id"
+              element={<EditAccount userData={userData} loged={loged} />}
+            />
+          </Route>
         </Route>
         <Route
           path="/logout"
@@ -145,6 +119,7 @@ export default function App(): React.ReactElement {
             />
           }
         />
+        <Route path="/becomeseller/:id" element={<BecomeSeller />} />
         <Route path="*" element={<E404 />} />
       </Routes>
     </BrowserRouter>

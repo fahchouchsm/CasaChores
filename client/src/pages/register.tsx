@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -67,7 +67,7 @@ const Register = () => {
 
     axios
       .post("http://localhost:3001/register", data, { withCredentials: true })
-      .then((response) => {
+      .then((response: AxiosResponse) => {
         setLoading(false);
         if (response.status === 200 && response.statusText === "OK") {
           window.location.href = "/";

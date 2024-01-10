@@ -1,9 +1,9 @@
 import NavBar from "../../navbar/navBar";
-import EditAcount from "./editAccount";
 import { useEffect, useState } from "react";
 import EditNotification from "./editNotification";
 import axios from "axios";
 import Loading from "../../../pages/loading";
+import EditAcountNav from "./editAccountNav";
 
 interface settingNav {
   userData: any;
@@ -12,6 +12,10 @@ interface settingNav {
 }
 
 const SettingNav: React.FC<settingNav> = ({ userData, loged }) => {
+  if (!loged) {
+    window.location.href = "/login";
+  }
+
   const [selectedSetting, setSelectedSetting] = useState<number>(0);
   const [settingsData, setSettingsData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -108,7 +112,7 @@ const SettingNav: React.FC<settingNav> = ({ userData, loged }) => {
             <div className="col-span-4">
               <div className="flex flex-col items-center w-full h-full ">
                 {selectedSetting === 0 ? (
-                  <EditAcount />
+                  <EditAcountNav userData={userData} />
                 ) : (
                   <EditNotification
                     settingsData={settingsData}

@@ -4,10 +4,8 @@ const userSchema = require("../../schema/userSchema");
 
 const router = express.Router();
 
-// Apply authentication middleware to all routes in this router
 router.use(authenticate);
 
-// Toggle category setting
 router.post("/:categorie/:setting", async (req, res) => {
   try {
     const { categorie, setting } = req.params;

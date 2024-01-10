@@ -1,14 +1,24 @@
 import { useNavigate } from "react-router-dom";
 
-const EditAcount = () => {
+interface editAccountNav {
+  userData: any;
+}
+
+const EditAcountNav: React.FC<editAccountNav> = ({ userData }) => {
   const navigate = useNavigate();
 
   const accountNav = [
-    { name: "Nom", navigate: () => navigate("/nom") },
-    { name: "Email", navigate: () => navigate("/nom") },
+    {
+      name: "Nom",
+      navigate: () => navigate(`/user/edit/account/${userData._id}`),
+    },
+    {
+      name: "Email",
+      navigate: () => navigate(`/user/edit/account/${userData._id}`),
+    },
     {
       name: "Numéro de téléphone",
-      navigate: () => navigate("/nom"),
+      navigate: () => navigate(`/user/edit/account/${userData._id}`),
     },
     { name: "Mot de passe", navigate: () => navigate("/nom") },
   ];
@@ -51,4 +61,4 @@ const EditAcount = () => {
   );
 };
 
-export default EditAcount;
+export default EditAcountNav;

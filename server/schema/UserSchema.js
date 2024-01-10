@@ -8,6 +8,10 @@ const userSchema = new mongoose.Schema({
     unique: true,
     match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   },
+  verifiedEmail: {
+    type: Boolean,
+    default: false,
+  },
   name: {
     type: String,
     required: true,
@@ -16,6 +20,19 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  phone: {
+    type: String,
+    unique: true,
+    validate: {
+      validator: function (v) {
+        // Check if the phone number is exactly 10
+        return /^\d{10}$/.test(v);
+      },
+      message: (props) =>
+        `${props.value} is not a valid 10-digit phone number!`,
+    },
+  },
+
   password: {
     type: String,
     required: true,

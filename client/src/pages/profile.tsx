@@ -10,6 +10,10 @@ interface profile {
 }
 
 const Profile: React.FC<profile> = ({ loged, userData, setUserData }) => {
+  if (!loged) {
+    window.location.href = "/login";
+  }
+
   return (
     <>
       <NavBar loged={loged} userData={userData} />

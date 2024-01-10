@@ -14,13 +14,18 @@ function classNames(...classes: any) {
 
 const NavBar: React.FC<navbar> = ({ loged, userData }) => {
   const navigate = useNavigate();
-  const [navigation, setNavigation] = useState<
-    { name: string; current: boolean; event: () => void }[] | null
-  >([]);
+  const [navigation, setNavigation] = useState<any[]>([]);
 
   useEffect(() => {
     if (loged) {
-      setNavigation(null);
+      setNavigation([
+        { name: "Accueil", current: true, event: () => navigate("/") },
+        {
+          name: "Explorer",
+          current: false,
+          event: () => navigate("/categories"),
+        },
+      ]);
     } else {
       setNavigation([
         { name: "Accueil", current: true, event: () => navigate("/") },
@@ -61,7 +66,7 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
                   <img
                     className="h-8 w-auto cursor-pointer"
                     src="\img\icons\noBgLogo.png"
-                    alt="Your Company"
+                    alt="logo"
                     onClick={() => navigate("/")}
                   />
                 </div>
@@ -69,7 +74,9 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
-                    {navigation ? (
+                    {loged ? (
+                      <></>
+                    ) : (
                       navigation.map((item) => (
                         <button
                           key={item.name}
@@ -85,8 +92,6 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
                           {item.name}
                         </button>
                       ))
-                    ) : (
-                      <></>
                     )}
                   </div>
                 </div>
@@ -139,7 +144,7 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <Menu.Items
-                          className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md 
+                          className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md  
                         bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                         >
                           <Menu.Item>
@@ -157,19 +162,26 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
                               </button>
                             )}
                           </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <button
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700 text-left w-full",
-                                )}
-                                onClick={() => navigate("/profile/settings")}
-                              >
-                                Devenir un vendeur
-                              </button>
-                            )}
-                          </Menu.Item>
+                          {!userData.seller ? (
+                            <Menu.Item>
+                              {({ active }) => (
+                                <button
+                                  className={classNames(
+                                    active ? "bg-gray-100" : "",
+                                    "block px-4 py-2 text-sm text-gray-700 text-left w-full",
+                                  )}
+                                  onClick={() =>
+                                    navigate(`/becomeseller/${userData._id}`)
+                                  }
+                                >
+                                  Devenir un vendeur
+                                </button>
+                              )}
+                            </Menu.Item>
+                          ) : (
+                            <></>
+                          )}
+
                           <Menu.Item>
                             {({ active }) => (
                               <button
@@ -195,19 +207,15 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
           </div>
 
           {/* Mobile */}
-          <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 px-2 pb-3 pt-2">
+          <Disclosure.Panel className="sm:hidden border-t border-gray-700">
+            <div className="space-y-1 px-1 pb-3 pt-2">
               {navigation ? (
                 navigation.map((item) => (
                   <Disclosure.Button
                     key={item.name}
                     as="button"
-                    className={classNames(
-                      item.current
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                      "block rounded-md px-3 py-2 text-base font-medium",
-                    )}
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white
+                      block rounded-md px-3 py-2 text-base font-medium w-full"
                     aria-current={item.current ? "page" : undefined}
                     onClick={item.event}
                   >

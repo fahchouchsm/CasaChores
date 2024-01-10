@@ -50,7 +50,7 @@ const ProfileContent: React.FC<profileContent> = ({
   }
 
   return (
-    <div className="grid grid-cols-3 gap-7 my-10 mx-16">
+    <div className="sm:grid sm:grid-cols-3 flex flex-col gap-7 my-10 mx-16">
       <ProfileChangePfp userData={userData} setUserData={setUserData} />
 
       <ProfileNavSettings settingsNav={settingsNav} />
