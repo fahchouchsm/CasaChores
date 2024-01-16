@@ -24,6 +24,14 @@ const HeroSearch: React.FC<heroSearch> = ({
     setTypeSelc(1);
   };
 
+  const becomeSellerHandler = () => {
+    if (userData) {
+      window.location.href = `/becomeSeller/${userData._id}`;
+    } else {
+      window.location.href = "/register";
+    }
+  };
+
   if (typeSelc === 0) {
     content = (
       <div className="container mx-auto sm:px-8 mb-28">
@@ -88,9 +96,7 @@ const HeroSearch: React.FC<heroSearch> = ({
           className="inline-flex items-center  px-4 py-2.5 mt-6  text-sm font-medium
                 text-white bg-gray-800 rounded-lg border  hover:bg-gray-700 
                 ring-0 focus:outline-none focus:ring-blue-300 "
-          onClick={() =>
-            (window.location.href = `/becomeseller/${userData._id}`)
-          }
+          onClick={becomeSellerHandler}
         >
           Commencer
         </button>

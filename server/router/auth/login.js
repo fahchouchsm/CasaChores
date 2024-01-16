@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 require("dotenv").config();
 
-router.post("/login", async (req, res) => {
+router.post("/", async (req, res) => {
   const { email, password, remember } = req.body;
 
   let foundUser = await userSchema.findOne({ email: email });

@@ -35,7 +35,7 @@ const HomeSearch: React.FC = () => {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3001/getcategories");
+    axios.get("http://localhost:3001/get/categories");
   });
 
   return (

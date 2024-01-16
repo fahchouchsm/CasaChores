@@ -1,10 +1,6 @@
-import { useNavigate } from "react-router-dom";
-
 const E404 = () => {
-  const navigate = useNavigate();
-
   const handleGobackButton = (e: any) => {
-    navigate("/");
+    window.location.href = "/";
   };
 
   return (

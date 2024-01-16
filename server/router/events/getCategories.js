@@ -3,7 +3,7 @@ const categoriesSchema = require("../../schema/categoriesSchema");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/categories", (req, res) => {
   categoriesSchema.find().then((result) => {
     res.json({ result });
   });

@@ -8,6 +8,7 @@ const multer = require("multer");
 const grid = require("gridfs-stream");
 
 const getCategories = require("./router/events/getCategories");
+const getCity = require("./router/events/getCity");
 const registerRouter = require("./router/auth/register");
 const logedChecking = require("./middleware/jwt/logedChecking");
 const userSettings = require("./router/userSettings/userSettings");
@@ -39,12 +40,14 @@ app.use(sessionMiddleware);
 
 app.use("/uploads", express.static("uploads"));
 
-// ?
-app.use("/getcategories", getCategories);
+// ? get categories
+app.use("/get", getCategories);
+// ? get city's
+app.use("/get", getCity);
 // ? register
-app.use("/", registerRouter);
+app.use("/register", registerRouter);
 // ? login
-app.use("/", loginRouter);
+app.use("/login", loginRouter);
 // ? logout
 app.use("/logout", logoutRouter);
 // ? loged checking
@@ -63,8 +66,3 @@ app.listen(port, () => {
 
 // * test
 const mongoose = require("mongoose");
-const postsSchema = require("./schema/postSchema");
-const userSchema = require("./schema/userSchema");
-const postSchema = require("./schema/postSchema");
-
-app.get("/test", (req, res) => {});

@@ -51,9 +51,17 @@ const userSchema = new mongoose.Schema({
   pfpLink: {
     type: String,
   },
+
+  // seller
   seller: {
     type: Boolean,
     default: false,
+    required: true,
+  },
+
+  sellerId: {
+    type: mongoose.Types.ObjectId,
+    ref: "Seller",
   },
 
   // Relationships and references

@@ -7,7 +7,7 @@ const _ = require("lodash");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-router.post("/register", async (req, res) => {
+router.post("/", async (req, res) => {
   const {
     emailD,
     nameD,

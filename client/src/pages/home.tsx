@@ -21,9 +21,9 @@ const Home: React.FC<home> = ({ userData, loged }) => {
           loged={loged}
         />
       </div>
-      <div className="flex-shrink-0 bg-blue-300">
-        {/* <h1>hamid lamba</h1> */}
-      </div>
+      {/* <div className="flex-shrink-0 bg-blue-300">
+        <h1>hamid lamba</h1>
+      </div> */}
     </>
   );
 };
