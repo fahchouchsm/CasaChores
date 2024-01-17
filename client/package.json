@@ -17,6 +17,8 @@
     "flowbite": "^2.2.0",
     "flowbite-datepicker": "^1.2.4",
     "flowbite-react": "^0.7.0",
+    "lodash": "^4.17.21",
+    "lodash.debounce": "^4.0.8",
     "preline": "^2.0.2",
     "react": "^18.2.0",
     "react-autosuggest": "^10.1.0",
@@ -53,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.202",
     "@types/react-autosuggest": "^10.1.10",
     "@wixc3/react-board": "^2.3.0",
     "daisyui": "^4.4.17",

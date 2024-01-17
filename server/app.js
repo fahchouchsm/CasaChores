@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const grid = require("gridfs-stream");
 
+const userNameChecker = require("./router/events/userNameChecker");
 const getCategories = require("./router/events/getCategories");
 const getCity = require("./router/events/getCity");
 const registerRouter = require("./router/auth/register");
@@ -40,6 +41,8 @@ app.use(sessionMiddleware);
 
 app.use("/uploads", express.static("uploads"));
 
+// ? userName checker
+app.use("/check", userNameChecker);
 // ? get categories
 app.use("/get", getCategories);
 // ? get city's

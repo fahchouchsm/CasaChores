@@ -8,6 +8,12 @@ const sellerSchema = new mongoose.Schema({
     unique: true,
   },
 
+  userName: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+
   sellerType: {
     type: String,
     enum: ["individual", "company"],
