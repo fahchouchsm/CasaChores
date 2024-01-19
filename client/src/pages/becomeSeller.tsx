@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Input1 from "../components/becomeSeller/input1";
 import Input2 from "../components/becomeSeller/input2";
+import Input3 from "../components/becomeSeller/input3";
 
 interface becomeSeller {
   userData: any;
@@ -33,13 +34,15 @@ const BecomeSeller: React.FC<becomeSeller> = ({ userData, setUserData }) => {
     case 2:
       content = (
         <Input2
+          setSteps={setSteps}
           setUserData={setUserData}
           userData={userData}
           userName={userName}
         />
       );
       break;
-      case3: content = "heloo";
+    case 3:
+      content = <Input3 />;
       break;
   }
 
@@ -77,12 +80,14 @@ const BecomeSeller: React.FC<becomeSeller> = ({ userData, setUserData }) => {
         </li>
         <li
           className={`flex items-center select-none ${
-            steps === 2 ? "text-teal-600" : "text-gray-500"
+            steps === 2 || steps === 3 ? "text-teal-600" : "text-gray-500"
           }`}
         >
           <span
-            className="flex items-center justify-center w-5 h-5 me-2 text-xs border
-          border-gray-500 rounded-full shrink-0 "
+            className={`flex items-center justify-center w-5 h-5 me-2 text-xs border
+            ${
+              steps === 2 || steps === 3 ? "border-teal-600" : "border-gray-500"
+            }  rounded-full shrink-0`}
           >
             2
           </span>
@@ -108,8 +113,10 @@ const BecomeSeller: React.FC<becomeSeller> = ({ userData, setUserData }) => {
           }`}
         >
           <span
-            className="flex items-center justify-center w-5 h-5 me-2 text-xs border
-          border-gray-500 rounded-full shrink-0 "
+            className={`flex items-center justify-center w-5 h-5 me-2 text-xs border
+            ${
+              steps === 3 ? "border-teal-600" : "border-gray-500"
+            }  rounded-full shrink-0`}
           >
             3
           </span>

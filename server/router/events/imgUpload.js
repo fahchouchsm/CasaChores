@@ -25,17 +25,19 @@ router.post("/user/pfp", upload.single("image"), async (req, res) => {
   if (req.file) {
     const imageUrl = `${req.protocol}://${req.get("host")}/uploads/pfp/${
       req.file.filename
-    }`;
+    }?v=${Date.now()}`;
     await userSchema
       .findOneAndUpdate(
         { _id: req.query.userId },
-        { $set: { pfpLink: imageUrl } }
+        { $set: { pfpLink: imageUrl } },
+        { new: true } // to return the updated document
       )
       .then((result) => {
         res.status(201).json({ result });
       })
       .catch((err) => {
         console.log(err);
+        res.status(500).json({ error: "Internal server error" });
       });
   } else {
     res

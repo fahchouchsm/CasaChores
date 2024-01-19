@@ -37,11 +37,8 @@ const ProfileChangePfp: React.FC<ProfileChangePfpProps> = ({
           },
         );
 
-        console.log("Uploaded successfully");
         setUserData(response.data.result);
         setLoading(false);
-
-        window.location.reload();
       } catch (error) {
         console.error("Error uploading:", error);
       }

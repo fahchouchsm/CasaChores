@@ -63,9 +63,6 @@ export default function App(): React.ReactElement {
             <BecomeSeller userData={userData} setUserData={setUserData} />
           }
         />
-        {/* Search */}
-        {/* todo */}
-        {/* User */}
         <Route path="/user">
           <Route
             path="profile/:id?"

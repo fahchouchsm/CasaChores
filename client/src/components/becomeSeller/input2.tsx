@@ -6,9 +6,15 @@ interface input2 {
   userData: any;
   setUserData: any;
   userName: string | null;
+  setSteps: (e: number) => void;
 }
 
-const Input2: React.FC<input2> = ({ userData, setUserData, userName }) => {
+const Input2: React.FC<input2> = ({
+  userData,
+  setUserData,
+  userName,
+  setSteps,
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
@@ -36,7 +42,6 @@ const Input2: React.FC<input2> = ({ userData, setUserData, userName }) => {
           },
         );
 
-        console.log("Uploaded successfully");
         setUserData(response.data.result);
         setLoading(false);
       } catch (error) {
@@ -45,6 +50,10 @@ const Input2: React.FC<input2> = ({ userData, setUserData, userName }) => {
     } else {
       window.location.reload();
     }
+  };
+  
+  const handleSubmit =  () => {
+    axios.post("")
   };
 
   return (
@@ -117,6 +126,7 @@ const Input2: React.FC<input2> = ({ userData, setUserData, userName }) => {
       <button
         className={`bg-gray-800 hover:bg-gray-700   ml-auto  px-5 py-2.5 text-center 
         text-white font-medium rounded-lg text-sm focus:outline-none `}
+        onClick={() => setSteps(3)}
       >
         {buttonLoading ? (
           <>
