@@ -57,12 +57,7 @@ export default function App(): React.ReactElement {
           <Route path="register" element={<Register />} />
         </Route>
         {/* Testing */}
-        <Route
-          path="/test"
-          element={
-            <BecomeSeller userData={userData} setUserData={setUserData} />
-          }
-        />
+        <Route path="/test" />
         <Route path="/user">
           <Route
             path="profile/:id?"
@@ -124,7 +119,11 @@ export default function App(): React.ReactElement {
         <Route
           path="/becomeseller/:id"
           element={
-            <BecomeSeller userData={userData} setUserData={setUserData} />
+            <BecomeSeller
+              userData={userData}
+              setUserData={setUserData}
+              loged={loged}
+            />
           }
         />
         <Route path="*" element={<E404 />} />

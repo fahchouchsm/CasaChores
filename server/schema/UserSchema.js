@@ -164,6 +164,12 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+// Remove associated seller
+userSchema.pre("remove", async function (next) {
+  await Seller.deleteOne({ userId: this._id });
+  next();
+});
+
 // calculating user rating
 userSchema.pre("save", async function (next) {
   if (this.reviews && this.reviews.length > 0) {

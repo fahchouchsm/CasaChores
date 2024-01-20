@@ -6,21 +6,31 @@ import Input3 from "../components/becomeSeller/input3";
 interface becomeSeller {
   userData: any;
   setUserData: (e: any) => void;
+  loged: boolean;
 }
 
-const BecomeSeller: React.FC<becomeSeller> = ({ userData, setUserData }) => {
+const BecomeSeller: React.FC<becomeSeller> = ({
+  userData,
+  setUserData,
+  loged,
+}) => {
+  if (!loged) {
+    window.location.href = "/login";
+  }
+
   const [typeSelc, setTypeSelc] = useState<number | null>(null);
 
   // * data
   const [phone, setPhone] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
-  const [steps, setSteps] = useState<number>(2);
+  const [steps, setSteps] = useState<number>(1);
 
   let content;
   switch (steps) {
     case 1:
       content = (
         <Input1
+          userData={userData}
           setSteps={setSteps}
           phone={phone}
           setPhone={setPhone}

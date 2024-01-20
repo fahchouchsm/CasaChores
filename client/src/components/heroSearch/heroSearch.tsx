@@ -14,7 +14,6 @@ const HeroSearch: React.FC<heroSearch> = ({
   loged,
 }) => {
   let content: any;
-  console.log(userData);
 
   const handler0 = (e: any) => {
     setTypeSelc(0);

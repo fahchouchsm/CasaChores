@@ -21,9 +21,11 @@ const sellerSchema = new mongoose.Schema({
 
   address: {
     type: String,
-    required: function () {
-      return this.sellerType === "company";
-    },
+  },
+
+  whatsappLink: {
+    type: String,
+    required: true,
   },
 
   services: [
@@ -31,11 +33,9 @@ const sellerSchema = new mongoose.Schema({
       mainCategorie: {
         type: mongoose.Types.ObjectId,
         ref: "MainCategorie",
-        required: true,
       },
       subCategorie: {
         type: mongoose.Types.ObjectId,
-        required: true,
         ref: "SubCategorie",
       },
     },

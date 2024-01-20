@@ -51,9 +51,15 @@ const Input2: React.FC<input2> = ({
       window.location.reload();
     }
   };
-  
-  const handleSubmit =  () => {
-    axios.post("")
+
+  const handleSubmit = () => {
+    axios
+      .post(`http://localhost:3001/new/seller/${userData._id}`, userData, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res);
+      });
   };
 
   return (
@@ -126,7 +132,7 @@ const Input2: React.FC<input2> = ({
       <button
         className={`bg-gray-800 hover:bg-gray-700   ml-auto  px-5 py-2.5 text-center 
         text-white font-medium rounded-lg text-sm focus:outline-none `}
-        onClick={() => setSteps(3)}
+        onClick={handleSubmit}
       >
         {buttonLoading ? (
           <>
