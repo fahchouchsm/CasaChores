@@ -29,9 +29,6 @@ const postsSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    whatsappLink: {
-      type: String,
-    },
   },
   createdAt: {
     type: Date,

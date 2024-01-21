@@ -50,17 +50,18 @@ const Input1: React.FC<input1> = ({
   };
 
   const isValidPhone = !!phone && /^\d{9}$/.test(phone);
+  const [code, setCode] = useState<string>("");
 
   const allValuesNotNull =
     Object.values(data).every((value) => value !== null && value !== "") &&
     isValidPhone &&
     userName &&
-    userName.length >= 5;
+    userName.length >= 5 &&
+    code?.length > 4;
 
   const [errorUserName, SetErrorUserName] = useState<string | null>();
   const [errorPhone, SetErrorPhone] = useState<string | null>();
   const [errCode, setErrorCode] = useState<string | null>();
-  const [code, setCode] = useState<string | null>();
 
   const sendData = () => {
     axios
@@ -323,7 +324,7 @@ const Input1: React.FC<input1> = ({
                     fill="currentColor"
                   />
                 </svg>
-                Loading...
+                Chargement...
               </>
             ) : (
               "Envoyer le code"
@@ -363,7 +364,7 @@ const Input1: React.FC<input1> = ({
                   fill="currentColor"
                 />
               </svg>
-              Loading...
+              Chargement...
             </>
           ) : (
             "Suivant"

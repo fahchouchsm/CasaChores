@@ -44,6 +44,7 @@ const BecomeSeller: React.FC<becomeSeller> = ({
     case 2:
       content = (
         <Input2
+          typeSelc={typeSelc}
           setSteps={setSteps}
           setUserData={setUserData}
           userData={userData}
@@ -58,7 +59,7 @@ const BecomeSeller: React.FC<becomeSeller> = ({
 
   return (
     <div
-      className="flex flex-col items-center justify-center mt-8 sm:mt-20 sm:mx-28
+      className="flex flex-col items-center justify-center mt-8 sm:mt-20 sm:mx-20
     md:mx-28 mx-0 p-6 rounded-lg sm:shadow-2xl sm:bg-gray-50"
     >
       <ol
@@ -130,7 +131,10 @@ const BecomeSeller: React.FC<becomeSeller> = ({
           >
             3
           </span>
-          Profile
+          <span className="hidden sm:inline-flex sm:ms-2 whitespace-nowrap">
+            Créer un&nbsp;
+          </span>
+          Post
         </li>
       </ol>
       {content}

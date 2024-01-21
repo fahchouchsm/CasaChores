@@ -7,25 +7,21 @@ const sellerSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-
   userName: {
     type: String,
     required: true,
     unique: true,
   },
-
   sellerType: {
     type: String,
     enum: ["individual", "company"],
   },
-
+  bio: {
+    type: String,
+    maxlength: 255,
+  },
   address: {
     type: String,
-  },
-
-  whatsappLink: {
-    type: String,
-    required: true,
   },
 
   services: [

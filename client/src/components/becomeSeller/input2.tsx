@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import Loading from "../../pages/loading";
 
 interface input2 {
@@ -7,6 +7,7 @@ interface input2 {
   setUserData: any;
   userName: string | null;
   setSteps: (e: number) => void;
+  typeSelc: number | null;
 }
 
 const Input2: React.FC<input2> = ({
@@ -14,6 +15,7 @@ const Input2: React.FC<input2> = ({
   setUserData,
   userName,
   setSteps,
+  typeSelc,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -51,14 +53,26 @@ const Input2: React.FC<input2> = ({
       window.location.reload();
     }
   };
+  const [bio, setBio] = useState<string>("");
 
   const handleSubmit = () => {
+    setButtonLoading(true);
     axios
-      .post(`http://localhost:3001/new/seller/${userData._id}`, userData, {
-        withCredentials: true,
-      })
+      .post(
+        `http://localhost:3001/new/seller/${userData._id}`,
+        { typeSelc, userName, bio },
+        {
+          withCredentials: true,
+        },
+      )
       .then((res) => {
         console.log(res);
+        setButtonLoading(false);
+        setSteps(3);
+      })
+      .catch((err) => {
+        console.log(err);
+        setButtonLoading(false);
       });
   };
 
@@ -111,7 +125,7 @@ const Input2: React.FC<input2> = ({
             )}
           </div>
           <h5 className="mb-1 text-lg text-center font-medium text-gray-900">
-            {`${userName}`}
+            {userName}
           </h5>
           <span className="text-sm text-gray-500 mb-2">{`${userData.lastName} ${userData.name}`}</span>
         </div>
@@ -126,6 +140,9 @@ const Input2: React.FC<input2> = ({
           border border-gray-300 focus:ring-gray-700 focus:border-gray-600 resize-none"
             placeholder="Écrivez vos pensées ici..."
             maxLength={255}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setBio(e.target.value)
+            }
           ></textarea>
         </div>
       </div>
@@ -153,7 +170,7 @@ const Input2: React.FC<input2> = ({
                 fill="currentColor"
               />
             </svg>
-            Loading...
+            Chargement...
           </>
         ) : (
           "Suivant"
