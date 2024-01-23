@@ -22,13 +22,14 @@ const ProfileContent: React.FC<profileContent> = ({
     {
       name: "Paramètres du compte",
       nav: () => {
-        navigate(`/user/settings/${userData._id}`);
+        navigate(`/settings/user/nav/${userData._id}`);
       },
     },
     {
       name: "Paramétres de notification",
       nav: () => {
-        navigate("/user/settings/account");
+        // todo
+        navigate(`/settings/user/nav/${userData._id}`);
       },
     },
   ];

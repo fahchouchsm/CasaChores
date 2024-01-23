@@ -3,5 +3,9 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [require("flowbite/plugin"), require("preline/plugin")],
+  plugins: [
+    require("flowbite/plugin"),
+    require("preline/plugin"),
+    require("tailwind-scrollbar"),
+  ],
 };

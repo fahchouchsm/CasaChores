@@ -155,10 +155,25 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
                                   "block px-4 py-2 text-sm text-gray-700 text-left w-full",
                                 )}
                                 onClick={() =>
-                                  navigate(`/user/profile/${userData._id}`)
+                                  navigate(`/profile/${userData._id}`)
                                 }
                               >
-                                Votre profile
+                                Profile
+                              </button>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700 text-left w-full",
+                                )}
+                                onClick={() =>
+                                  navigate(`/settings/profile/${userData._id}`)
+                                }
+                              >
+                                Paramètres de profil
                               </button>
                             )}
                           </Menu.Item>

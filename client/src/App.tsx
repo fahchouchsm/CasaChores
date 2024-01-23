@@ -6,12 +6,13 @@ import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import Loading from "./pages/loading";
 import Home from "./pages/home";
-import Profile from "./pages/profile";
+import Profile from "./pages/profileSettings";
 import Logout from "./pages/logout";
 import Account from "./components/profile/settings/settingNav";
 import SettingNav from "./components/profile/settings/settingNav";
 import BecomeSeller from "./pages/becomeSeller";
 import EditAccount from "./pages/editAccout";
+import NewPost from "./pages/newPost";
 
 export default function App(): React.ReactElement {
   const [loged, setLoged] = useState(false);
@@ -58,7 +59,8 @@ export default function App(): React.ReactElement {
         </Route>
         {/* Testing */}
         <Route path="/test" />
-        <Route path="/user">
+        {/* Settings */}
+        <Route path="settings">
           <Route
             path="profile/:id?"
             element={
@@ -71,10 +73,9 @@ export default function App(): React.ReactElement {
               />
             }
           />
-          {/* Settings */}
-          <Route path="settings">
+          <Route path="user">
             <Route
-              path=":id?"
+              path="nav/:id?"
               index
               element={
                 <SettingNav
@@ -85,26 +86,25 @@ export default function App(): React.ReactElement {
               }
             />
             <Route
-              path="account/:id"
-              element={
-                <Account
-                  loged={loged}
-                  userData={userData}
-                  setUserData={setUserData}
-                />
-              }
-            />
-            <Route
-              path="notification/:id"
-              //todo
+              path="edit/account/:id"
+              element={<EditAccount loged={loged} userData={userData} />}
             />
           </Route>
-          <Route path="edit">
-            <Route
-              path="account/:id"
-              element={<EditAccount userData={userData} loged={loged} />}
-            />
-          </Route>
+
+          <Route
+            path="account/:id"
+            element={
+              <Account
+                loged={loged}
+                userData={userData}
+                setUserData={setUserData}
+              />
+            }
+          />
+          <Route
+            path="notification/:id"
+            //todo
+          />
         </Route>
         <Route
           path="/logout"
@@ -125,6 +125,10 @@ export default function App(): React.ReactElement {
               loged={loged}
             />
           }
+        />
+        <Route
+          path="/new/post"
+          element={<NewPost loged={loged} userData={userData} />}
         />
         <Route path="*" element={<E404 />} />
       </Routes>

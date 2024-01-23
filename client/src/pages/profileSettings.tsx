@@ -1,7 +1,7 @@
 import NavBar from "../components/navbar/navBar";
 import ProfileContent from "../components/profile/profileContent";
 
-interface profile {
+interface profileSettings {
   userData: any;
   setUserData: (mov: any) => void;
   loading: boolean;
@@ -9,7 +9,11 @@ interface profile {
   loged: boolean;
 }
 
-const Profile: React.FC<profile> = ({ loged, userData, setUserData }) => {
+const ProfileSettings: React.FC<profileSettings> = ({
+  loged,
+  userData,
+  setUserData,
+}) => {
   if (!loged) {
     window.location.href = "/login";
   }
@@ -26,4 +30,4 @@ const Profile: React.FC<profile> = ({ loged, userData, setUserData }) => {
   );
 };
 
-export default Profile;
+export default ProfileSettings;

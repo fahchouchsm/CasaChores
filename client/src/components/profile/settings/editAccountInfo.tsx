@@ -60,10 +60,10 @@ const EditAccountInfo: React.FC<editAccountInfo> = ({ userData, loged }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center my-8 ">
+    <div className="flex flex-col justify-center my-8 md:mx-28 ">
       <button
         className="ml-3 flex items-center text-gray-800"
-        onClick={() => navigate(`/user/settings/${userData._id}`)}
+        onClick={() => navigate(`/settings/profile/${userData._id}`)}
       >
         <svg
           className="w-3.5 h-3.5"

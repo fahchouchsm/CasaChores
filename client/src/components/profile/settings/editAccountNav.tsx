@@ -10,15 +10,15 @@ const EditAcountNav: React.FC<editAccountNav> = ({ userData }) => {
   const accountNav = [
     {
       name: "Nom",
-      navigate: () => navigate(`/user/edit/account/${userData._id}`),
+      navigate: () => navigate(`/settings/user/edit/account/${userData._id}`),
     },
     {
       name: "Email",
-      navigate: () => navigate(`/user/edit/account/${userData._id}`),
+      navigate: () => navigate(`/settings/user/edit/account/${userData._id}`),
     },
     {
       name: "Numéro de téléphone",
-      navigate: () => navigate(`/user/edit/account/${userData._id}`),
+      navigate: () => navigate(`/settings/user/edit/account/${userData._id}`),
     },
     { name: "Mot de passe", navigate: () => navigate("/nom") },
   ];

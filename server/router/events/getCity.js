@@ -5,11 +5,16 @@ const router = express.Router();
 
 router.get("/city", (req, res) => {
   citySchema
-    .find()
+    .find({}, { name: 1, _id: 0 })
+    .sort({ name: 1 })
     .then((result) => {
-      res.json(result);
+      const names = result.map((city) => city.name);
+      res.json(names);
     })
-    .catch((err) => {});
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: "Internal Server Error" });
+    });
 });
 
 module.exports = router;
