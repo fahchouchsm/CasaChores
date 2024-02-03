@@ -1,3 +1,4 @@
+// login.js
 const express = require("express");
 const router = express.Router();
 const userSchema = require("../../schema/userSchema");
@@ -15,36 +16,35 @@ router.post("/", async (req, res) => {
   if (foundUser) {
     const passwordCheck = await bcrypt.compare(password, foundUser.password);
     if (passwordCheck) {
-      // ? loged
+      // Determine expiration time based on 'remember' flag
       remember
-        ? (expiredTime = 1000 * 60 * 60 * 24)
-        : (expiredTime = 1000 * 60 * 60);
-      // * token
-      token = jwt.sign({ id: foundUser._id }, process.env.KEY, {
+        ? (expiredTime = 1000 * 60 * 60 * 24) // 24 hours
+        : (expiredTime = 1000 * 60 * 60); // 1 hour
+
+      // Generate JWT token
+      const token = jwt.sign({ id: foundUser._id }, process.env.KEY, {
         expiresIn: expiredTime,
       });
-      // * cookie
+
+      // Set cookie with token
       res.cookie("rem", token, {
         expires: new Date(Date.now() + expiredTime),
         httpOnly: true,
       });
-      // * session
-      req.session.user = {
-        id: foundUser._id,
-        createdAt: Date.now(),
-      };
 
-      // ? response
-      res.status(200).json({ message: "loged" });
+      // Store user ID in session
+      req.session.userId = foundUser._id;
+
+      // Send response
+      res.status(200).json({ message: "Logged in" });
     } else {
       res.status(400).json({
-        message: "le mot de passe ou l'e-mail est invalide",
+        message: "Invalid email or password",
       });
     }
   } else {
-    console.log(true);
     res.status(400).json({
-      message: "le mot de passe ou l'e-mail est invalide",
+      message: "Invalid email or password",
     });
   }
 });

@@ -27,11 +27,11 @@ router.post("/send/:id", async (req, res) => {
     .save()
     .then(async (result) => {
       console.log(result);
-      // const message = await twilioClient.messages.create({
-      //   body: `Votre code d'authenification est : ${code}`,
-      //   from: TWILIO_FROM_NUMBER,
-      //   to: TWILIO_TO_NUMBER,
-      // });
+      const message = await twilioClient.messages.create({
+        body: `Votre code d'authenification est : ${code}`,
+        from: TWILIO_FROM_NUMBER,
+        to: TWILIO_TO_NUMBER,
+      });
 
       res.json({
         success: true,

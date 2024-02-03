@@ -34,10 +34,6 @@ const HomeSearch: React.FC = () => {
     setSearchResult(results);
   };
 
-  useEffect(() => {
-    axios.get("http://localhost:3001/get/categories");
-  });
-
   return (
     <form className="flex items-center mt-5" onSubmit={submitHandler}>
       <div className="relative w-full">

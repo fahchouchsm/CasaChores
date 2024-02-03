@@ -12,38 +12,24 @@ const authenticate = async (req, res, next) => {
     return res.status(401).json({ message: "No token" });
   }
 
-  // Verify the JWT token
-  jwt.verify(token, process.env.KEY, async (err, decoded) => {
-    if (err) {
-      console.log("Invalid token");
-      return res.status(403).json({ message: "Invalid token" });
+  try {
+    // Verify the JWT token
+    const decoded = jwt.verify(token, process.env.KEY);
+
+    // Check if user exists
+    const foundUser = await userSchema.findById(decoded.id);
+    if (!foundUser) {
+      console.log("User not found");
+      return res.status(401).json({ message: "User not found" });
     }
 
-    // Check the session
-    try {
-      const foundUser = await userSchema.findOne({ _id: decoded.id });
-      if (!foundUser) {
-        console.log("User not found");
-        return res.status(401).json({ message: "User not found" });
-      }
-
-      if (
-        !req.session ||
-        !req.session.user ||
-        req.session.user.id !== foundUser._id.toString()
-      ) {
-        res.clearCookie("rem");
-        console.log("Invalid session");
-        return res.status(401).json({ message: "Invalid session" });
-      }
-
-      req.userId = decoded.id;
-      next();
-    } catch (error) {
-      console.error("Error checking session:", error);
-      return res.status(500).json({ message: "Internal Server Error" });
-    }
-  });
+    // Store user ID in request for further processing
+    req.userId = decoded.id;
+    next();
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res.status(403).json({ message: "Invalid token" });
+  }
 };
 
 module.exports = authenticate;

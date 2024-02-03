@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const postsSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -15,20 +15,26 @@ const postsSchema = new mongoose.Schema({
   specifiqueLocation: {
     type: String,
   },
+  sellerType: {
+    type: String,
+    enum: ["individual", "company"],
+  },
+  typeWork: {
+    type: String,
+    enum: ["presence", "online"],
+  },
   serviceOfred: [String],
   availability: {
     type: Boolean,
     default: true,
   },
-  contactInfo: {
-    email: {
-      type: String,
-      required: true,
-    },
-    phone: {
-      type: String,
-      required: true,
-    },
+  email: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
   },
   createdAt: {
     type: Date,
@@ -38,6 +44,17 @@ const postsSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+
+  images: [
+    {
+      type: String,
+    },
+  ],
+
+  city: {
+    type: String,
+    required: true,
+  },
 });
 
-module.exports = mongoose.model("Post", postsSchema);
+module.exports = mongoose.model("Post", postSchema);

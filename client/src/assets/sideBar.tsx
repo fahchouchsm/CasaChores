@@ -1,20 +1,14 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-interface sideBarCitys {
+interface sideBar {
   open: boolean;
   name: string;
   setOpen: (e: boolean) => void;
   content: any;
 }
 
-const SideBarCitys: React.FC<sideBarCitys> = ({
-  open,
-  setOpen,
-  name,
-  content,
-}) => {
-  //
+const SideBar: React.FC<sideBar> = ({ open, setOpen, name, content }) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -54,7 +48,7 @@ const SideBarCitys: React.FC<sideBarCitys> = ({
                     <div className="absolute left-0 top-0 -ml-8 flex pr-2 pt-4 sm:-ml-10 sm:pr-4 "></div>
                   </Transition.Child>
                   {/*  */}
-                  <div className="flex flex-col min-h-screen bg-white pt-6">
+                  <div className="flex flex-col h-screen bg-white pt-6">
                     <div className="px-4 sm:px-6">
                       <Dialog.Title>
                         <div className="flex flex-row">
@@ -70,7 +64,7 @@ const SideBarCitys: React.FC<sideBarCitys> = ({
                             <span className="absolute -inset-2.5" />
                             <span className="sr-only">Close panel</span>
                             <svg
-                              className="w-6 h-6 text-gray-800 dark:text-white"
+                              className="w-6 h-6 text-gray-800"
                               aria-hidden="true"
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -83,12 +77,12 @@ const SideBarCitys: React.FC<sideBarCitys> = ({
                                 strokeWidth="2"
                                 d="M6 18 18 6m0 12L6 6"
                               />
-                            </svg>{" "}
+                            </svg>
                           </button>
                         </div>
                       </Dialog.Title>
                     </div>
-                    <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                    <div className="static mt-6 flex-1 px-4 sm:px-6">
                       {content}
                     </div>
                   </div>
@@ -102,4 +96,4 @@ const SideBarCitys: React.FC<sideBarCitys> = ({
   );
 };
 
-export default SideBarCitys;
+export default SideBar;

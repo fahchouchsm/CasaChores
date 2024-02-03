@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  // Basic user information
   email: {
     type: String,
     required: true,
@@ -35,7 +34,6 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 
-  // Registration and profile details
   dateRegister: {
     type: Date,
     default: Date.now(),
@@ -44,7 +42,6 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
 
-  // seller
   seller: {
     type: Boolean,
     default: false,
@@ -56,7 +53,6 @@ const userSchema = new mongoose.Schema({
     ref: "Seller",
   },
 
-  // Relationships and references
   posts: [
     {
       type: mongoose.Types.ObjectId,
@@ -82,14 +78,12 @@ const userSchema = new mongoose.Schema({
     },
   ],
 
-  // User rating and calculations
   userRating: {
     type: Number,
     default: 0,
     required: true,
   },
 
-  // User settings
   settings: {
     notifications: {
       messages: {
@@ -156,13 +150,11 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// Remove associated seller
 userSchema.pre("remove", async function (next) {
   await Seller.deleteOne({ userId: this._id });
   next();
 });
 
-// calculating user rating
 userSchema.pre("save", async function (next) {
   if (this.reviews && this.reviews.length > 0) {
     const totalRating = this.reviews.reduce(
@@ -176,5 +168,4 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Create and export the User model
 module.exports = mongoose.model("User", userSchema);

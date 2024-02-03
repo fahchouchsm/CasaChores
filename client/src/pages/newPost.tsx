@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import Navigator from "../components/newPost/navigator";
 import Content0 from "../components/newPost/content0";
+import Content1 from "../components/newPost/content1";
+import Content2 from "../components/newPost/content2";
+import axios from "axios";
 
 interface newPost {
   loged: boolean;
@@ -10,33 +13,210 @@ interface newPost {
 const NewPost: React.FC<newPost> = ({ loged, userData }) => {
   const [step, setStep] = useState<number>(0);
 
-  if (!loged || !userData.seller) {
+  const toLogin = () => {
     window.location.href = "/login";
+  };
+  if (!loged || !userData.seller) {
+    toLogin();
+  } else if (!userData.seller) {
+    window.location.href = "/";
   }
-  console.log(step);
-  const [loading, setLoading] = useState(false);
-
-  const [content, setContent] = useState<any>(0);
+  // * step 0
+  const [typeWork, setTypeWork] = useState<string>("");
+  const [city, setCity] = useState("");
+  const [adresse, setAdresse] = useState("");
+  const [phone, setPhone] = useState<boolean>(false);
+  const [cityErr, setCityErr] = useState("");
+  const [typeWorkErr, settypeWorkErr] = useState("");
 
   useEffect(() => {
-    // Update content based on the step value
+    axios
+      .post("http://localhost:3001/new/post/check", userData, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        const { step0, step1 } = res.data.result;
+
+        if (step1) {
+          setmainCat(step1.mainCat);
+          setSubCat(step1.subCat);
+          setSubCat1(step1.subCat1);
+          setTitle(step1.title);
+          setDescription(step1.description);
+          setStep(2);
+        } else if (step0) {
+          setTypeWork(step0.typeWork);
+          setCity(step0.city);
+          setAdresse(step0.adresse);
+          setPhone(step0.hiddenPhone);
+          setStep(1);
+        }
+      })
+      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [content, setContent] = useState<any>(0);
+  const [loading, setLoading] = useState(false);
+
+  // * step 1
+  const [mainCat, setmainCat] = useState("");
+  const [subCat, setSubCat] = useState("");
+  const [subCat1, setSubCat1] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  const [catErr, setcatErr] = useState("");
+  const [titleErr, setTitleErr] = useState("");
+
+  // ? validation
+  const validation0 = () => {
+    if (typeWork === "") {
+      settypeWorkErr("Type de travail est requise");
+      return false;
+    }
+    if (city === "") {
+      setCityErr("City is required");
+      settypeWorkErr("");
+      return false;
+    }
+
+    setCityErr("");
+    settypeWorkErr("");
+    return true;
+  };
+
+  const validation1 = () => {
+    if (mainCat === "" || subCat === "" || subCat1 === "") {
+      setcatErr("Veuillez selectionner une categorie");
+      return false;
+    } else if (title === "") {
+      setcatErr("");
+      setTitleErr("Titre est requise");
+      return false;
+    } else if (title.length < 7) {
+      setTitleErr("Titre est trop court");
+      return false;
+    }
+
+    setcatErr("");
+    setTitleErr("");
+    return true;
+  };
+
+  // ! send data
+  const sendData0 = () => {
+    setLoading(true);
+    if (!validation0()) {
+      setLoading(false);
+      return false;
+    }
+
+    setLoading(true);
+    axios
+      .post(
+        "http://localhost:3001/new/post/step0",
+        {
+          typeWork,
+          city,
+          adresse,
+          phone,
+        },
+        { withCredentials: true },
+      )
+      .then((result) => {
+        setLoading(false);
+        setStep(step + 1);
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
+
+  const sendData1 = () => {
+    setLoading(true);
+    if (!validation1()) {
+      setLoading(false);
+      return false;
+    }
+
+    axios
+      .post(
+        "http://localhost:3001/new/post/step1",
+        { mainCat, subCat, subCat1, title, description },
+        { withCredentials: true },
+      )
+      .then((result) => {
+        setLoading(false);
+        setStep(step + 1);
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
     switch (step) {
       case 0:
-        setContent(<Content0 userData={userData} />);
+        setContent(
+          <Content0
+            adresse={adresse}
+            cityErr={cityErr}
+            typeWorkErr={typeWorkErr}
+            userData={userData}
+            city={city}
+            phone={phone}
+            setAdresse={setAdresse}
+            setCity={setCity}
+            setPhone={setPhone}
+            setTypeWork={setTypeWork}
+            typeWork={typeWork}
+          />,
+        );
         break;
       case 1:
-        setContent(<h1>hello</h1>);
+        setContent(
+          <Content1
+            typeWork={typeWork}
+            description={description}
+            title={title}
+            catErr={catErr}
+            titleErr={titleErr}
+            setSubCat1={setSubCat1}
+            setDescription={setDescription}
+            setTitle={setTitle}
+            mainCat={mainCat}
+            setSubCat={setSubCat}
+            setmainCat={setmainCat}
+          />,
+        );
+        break;
+      case 2:
+        setContent(<Content2 />);
         break;
     }
-  }, [step, userData]);
+  }, [
+    adresse,
+    catErr,
+    city,
+    cityErr,
+    description,
+    mainCat,
+    phone,
+    step,
+    title,
+    titleErr,
+    typeWork,
+    typeWorkErr,
+    userData,
+  ]);
 
   return (
     <>
       <div className="bg-gray-100 pb-12">
         <Navigator step={step} setSteps={setStep} />
-        {/*  */}
-        <section className="rounded-lg md:mx-40 sm:mx-12 mx-4 bg-white sm:px-10 px-5 mt-10">
-          {content}
+        <section className="rounded-lg md:mx-36 sm:mx-12 mx-4 bg-white sm:px-10 px-5 mt-10">
+          <div className="max-w-2xl px-4 py-8 mx-auto lg:py-12">{content}</div>
         </section>
       </div>
       <div className="h-20 w-full sticky bottom-0 flex items-center bg-white shadow-2xl p-4">
@@ -46,7 +226,14 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
           className="ml-auto px-7 py-2.5 text-center  text-white bg-gray-800 hover:bg-gray-700
                 font-medium rounded-lg text-sm focus:outline-none"
           onClick={() => {
-            setStep(step + 1);
+            switch (step) {
+              case 0:
+                sendData0();
+                break;
+              case 1:
+                sendData1();
+                break;
+            }
           }}
         >
           {loading ? (
@@ -68,7 +255,7 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
                   fill="currentColor"
                 />
               </svg>
-              Loading...
+              Chargement...
             </>
           ) : (
             "Suivant"
