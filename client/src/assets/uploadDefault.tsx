@@ -60,7 +60,7 @@ const UploadDefault: React.FC<UploadDefaultProps> = ({ onImageChange }) => {
           <img
             key={index}
             src={url}
-            alt={`Uploaded Image ${index + 1}`}
+            alt={`${index + 1}`}
             className="w-24 h-24 object-cover rounded-lg"
           />
         ))}

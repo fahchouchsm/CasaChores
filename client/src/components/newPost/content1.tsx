@@ -114,7 +114,7 @@ const Content1: React.FC<content1> = ({
             <SideBarCitys
               open={open}
               setOpen={setOpen}
-              name="Ville"
+              name="Catégories"
               content={
                 <SidebarCategorie
                   typeWork={typeWork}

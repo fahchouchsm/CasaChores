@@ -1,14 +1,14 @@
 const express = require("express");
 const categoryPSchema = require("../../schema/category/categoryPSchema");
+const categoryOSchema = require("../../schema/category/categoryOSchema");
 
 const router = express.Router();
 
 router.get("/category/presence", (req, res) => {
-  categorySchema
-    .find({ typeCat: "presence" })
-    .select("-_id")
+  categoryPSchema
+    .find({}, { _id: 0, __v: 0 })
     .then((result) => {
-      res.status(200).json({ msg: result }); // Send the result directly
+      res.status(200).json({ msg: result });
     })
     .catch((err) => {
       console.error("Error fetching data:", err);
@@ -17,7 +17,15 @@ router.get("/category/presence", (req, res) => {
 });
 
 router.get("/category/online", (req, res) => {
-  res.json;
+  categoryOSchema
+    .find({}, { _id: 0, __v: 0 })
+    .then((result) => {
+      res.status(200).json({ msg: result });
+    })
+    .catch((err) => {
+      console.error("Error fetching data:", err);
+      res.status(400).json({ msg: false, data: err });
+    });
 });
 
 module.exports = router;
