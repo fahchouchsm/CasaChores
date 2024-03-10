@@ -14,7 +14,7 @@ const ContentEntreprise = () => {
         <div className="col-span-4 justify-between  pt-4 px-4 leading-normal text-left">
           <div className="grid grid-cols-2 place-content-between">
             <h5 className=" text-2xl font-bold tracking-tight text-gray-900 ">
-              Dounia Boukerne
+              Hamid Lamba
             </h5>
             <button
               className="inline-flex ml-auto items-center px-3 py-2 text-sm font-medium text-center

@@ -13,6 +13,7 @@ import SettingNav from "./components/profile/settings/settingNav";
 import BecomeSeller from "./pages/becomeSeller";
 import EditAccount from "./pages/editAccout";
 import NewPost from "./pages/newPost";
+import HomeFilter from "./pages/homeFilter";
 
 export default function App(): React.ReactElement {
   const [loged, setLoged] = useState(false);
@@ -58,7 +59,18 @@ export default function App(): React.ReactElement {
           <Route path="register" element={<Register />} />
         </Route>
         {/* Testing */}
-        <Route path="/test" />
+        <Route
+          path="/test"
+          element={
+            <HomeFilter
+              loadingP={loading}
+              logedP={loged}
+              setLoadingP={setLoading}
+              setLogedP={setLoged}
+              userDataP={userData}
+            />
+          }
+        />
         {/* Settings */}
         <Route path="settings">
           <Route

@@ -161,7 +161,7 @@ const Content1: React.FC<content1> = ({
           </label>
           <textarea
             id="description"
-            maxLength={255}
+            maxLength={365}
             rows={8}
             className="block resize-none p-2.5 w-full text-sm text-gray-900 rounded-lg border
               border-gray-200 focus:ring-gray-700 focus:border-gray-800"

@@ -1,13 +1,10 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import catData from "../../catData.json";
 import SearchDropdown from "./searchDropdown";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const HomeSearch: React.FC = () => {
   const [query, setQuery] = useState<string>("");
   const [searchResults, setSearchResult] = useState<any[]>([]);
-  const navigate = useNavigate();
 
   const allServices = Object.values(catData).flatMap(
     (categoryServices) => categoryServices,

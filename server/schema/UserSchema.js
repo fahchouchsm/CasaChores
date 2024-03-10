@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    unique: true,
+    default: "",
   },
 
   password: {
@@ -143,7 +143,6 @@ const userSchema = new mongoose.Schema({
     },
   },
 
-  // Account status
   active: {
     type: Boolean,
     default: true,

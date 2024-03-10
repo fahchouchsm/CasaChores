@@ -65,7 +65,7 @@ const ProfileChangePfp: React.FC<ProfileChangePfpProps> = ({
                 onChange={handleFileChange}
               />
               <img
-                className="w-24 h-24 mb-3 rounded-full shadow-lg hover:opacity-50 cursor-pointer"
+                className="w-24 h-24 mb-3 object-cover rounded-full shadow-lg hover:opacity-50 cursor-pointer"
                 src={
                   userData.pfpLink
                     ? userData.pfpLink

@@ -192,7 +192,7 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
         );
         break;
       case 2:
-        setContent(<Content2 />);
+        setContent(<Content2 userData={userData} />);
         break;
     }
   }, [
@@ -215,8 +215,8 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
     <>
       <div className="bg-gray-100 pb-12">
         <Navigator step={step} setSteps={setStep} />
-        <section className="rounded-lg md:mx-36 sm:mx-12 mx-4 bg-white sm:px-10 px-5 mt-10">
-          <div className="max-w-2xl px-4 py-8 mx-auto lg:py-12">{content}</div>
+        <section className="rounded-lg md:mx-44 sm:mx-12 mx-4 bg-white sm:px-10 px-5 mt-10">
+          <div className="max-w-3xl px-4 py-8 mx-auto lg:py-12">{content}</div>
         </section>
       </div>
       <div className="h-20 w-full sticky bottom-0 flex items-center bg-white shadow-2xl p-4">

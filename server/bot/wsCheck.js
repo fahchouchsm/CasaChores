@@ -26,7 +26,7 @@ router.post("/send/:id", async (req, res) => {
   wsCode
     .save()
     .then(async (result) => {
-      console.log(result);
+      console.log(result.code);
       const message = await twilioClient.messages.create({
         body: `Votre code d'authenification est : ${code}`,
         from: TWILIO_FROM_NUMBER,
@@ -49,11 +49,9 @@ router.post("/send/:id", async (req, res) => {
 
 router.post("/check/:id", async (req, res) => {
   const { code } = req.body;
-  console.log(req.body);
   wsCodeSchema
     .findOne({ userId: req.userId, code: code })
     .then((result) => {
-      console.log(result);
       res.json({
         message: result ? true : false,
       });

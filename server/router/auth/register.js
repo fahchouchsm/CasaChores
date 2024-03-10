@@ -25,9 +25,9 @@ router.post("/", async (req, res) => {
   let expiredTime = 1000 * 60 * 60;
 
   try {
-    const foundUser = await userSchema.findOne({ email: emailD });
+    const foundUserByEmail = await userSchema.findOne({ email: emailD });
 
-    if (foundUser) {
+    if (foundUserByEmail) {
       res.status(400).json({ error: emailDuplicatedErr });
     } else {
       if (passwordD !== confirmPasswordD) {

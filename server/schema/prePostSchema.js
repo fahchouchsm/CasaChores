@@ -44,6 +44,15 @@ const prePostSchema = new mongoose.Schema({
       required: false,
     },
   },
+
+  step2: {
+    imgUrl: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
+  },
 });
 
 module.exports = mongoose.model("PrePost", prePostSchema);

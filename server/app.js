@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const userNameChecker = require("./router/events/userNameChecker");
 const getCategories = require("./router/events/getCategory");
 const getCity = require("./router/events/getCity");
+const getImg = require("./router/post/getPost");
 const registerRouter = require("./router/auth/register");
 const createSellerRouter = require("./router/events/createSeller");
 const newPost = require("./router/events/newPost");
@@ -49,6 +50,8 @@ app.use("/check", userNameChecker);
 app.use("/get", getCategories);
 // ? get city's
 app.use("/get", getCity);
+// ? get postImg
+app.use("/get", getImg);
 // ? register
 app.use("/register", registerRouter);
 // ? create seller
