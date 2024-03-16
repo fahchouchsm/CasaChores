@@ -1,4 +1,3 @@
-import OnlineCategory from "./onlineCategory";
 import PresenceCategorie from "./presenceCategory";
 
 interface sidebarCategorie {
@@ -7,7 +6,6 @@ interface sidebarCategorie {
   setMainCat: (e: string) => void;
   setSubCat: (e: string) => void;
   setSubCat1: (e: string) => void;
-  typeWork: string;
 }
 
 const SidebarCategorie: React.FC<sidebarCategorie> = ({
@@ -16,7 +14,6 @@ const SidebarCategorie: React.FC<sidebarCategorie> = ({
   setCategorieSvg,
   setSubCat,
   setSubCat1,
-  typeWork,
 }) => {
   const arrowSvg = (mov: boolean) => {
     return (
@@ -38,29 +35,16 @@ const SidebarCategorie: React.FC<sidebarCategorie> = ({
     );
   };
 
-  if (typeWork === "presence") {
-    return (
-      <PresenceCategorie
-        arrowSvg={arrowSvg}
-        setCategorieSvg={setCategorieSvg}
-        setMainCat={setMainCat}
-        setOpen={setOpen}
-        setSubCat={setSubCat}
-        setSubCat1={setSubCat1}
-      />
-    );
-  } else {
-    return (
-      <OnlineCategory
-        arrowSvg={arrowSvg}
-        setCategorieSvg={setCategorieSvg}
-        setMainCat={setMainCat}
-        setOpen={setOpen}
-        setSubCat={setSubCat}
-        setSubCat1={setSubCat1}
-      />
-    );
-  }
+  return (
+    <PresenceCategorie
+      arrowSvg={arrowSvg}
+      setCategorieSvg={setCategorieSvg}
+      setMainCat={setMainCat}
+      setOpen={setOpen}
+      setSubCat={setSubCat}
+      setSubCat1={setSubCat1}
+    />
+  );
 };
 
 export default SidebarCategorie;

@@ -41,18 +41,15 @@ const userSchema = new mongoose.Schema({
   pfpLink: {
     type: String,
   },
-
   seller: {
     type: Boolean,
     default: false,
     required: true,
   },
-
   sellerId: {
     type: mongoose.Types.ObjectId,
     ref: "Seller",
   },
-
   posts: [
     {
       type: mongoose.Types.ObjectId,
@@ -75,6 +72,19 @@ const userSchema = new mongoose.Schema({
       comments: {
         type: String,
       },
+      replies: [
+        {
+          user: {
+            type: mongoose.Types.ObjectId,
+            ref: "User",
+            required: true,
+          },
+          comment: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
     },
   ],
 
@@ -83,7 +93,6 @@ const userSchema = new mongoose.Schema({
     default: 0,
     required: true,
   },
-
   settings: {
     notifications: {
       messages: {
@@ -142,7 +151,6 @@ const userSchema = new mongoose.Schema({
       },
     },
   },
-
   active: {
     type: Boolean,
     default: true,

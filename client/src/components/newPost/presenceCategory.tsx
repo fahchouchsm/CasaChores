@@ -141,7 +141,6 @@ const PresenceCategory: React.FC<presenceCategor> = ({
                                   setSubCat(sub.name);
                                   setSubCat1(subb.name);
                                   setOpen(false);
-                                  setMainCat(subb.name);
                                   setCategorieSvg(cat.icon);
                                 }}
                               >

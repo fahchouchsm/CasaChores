@@ -4,6 +4,7 @@ import Content0 from "../components/newPost/content0";
 import Content1 from "../components/newPost/content1";
 import Content2 from "../components/newPost/content2";
 import axios from "axios";
+import Content3 from "../components/newPost/content3";
 
 interface newPost {
   loged: boolean;
@@ -22,12 +23,10 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
     window.location.href = "/";
   }
   // * step 0
-  const [typeWork, setTypeWork] = useState<string>("");
   const [city, setCity] = useState("");
   const [adresse, setAdresse] = useState("");
   const [phone, setPhone] = useState<boolean>(false);
   const [cityErr, setCityErr] = useState("");
-  const [typeWorkErr, settypeWorkErr] = useState("");
 
   useEffect(() => {
     axios
@@ -45,7 +44,6 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
           setDescription(step1.description);
           setStep(2);
         } else if (step0) {
-          setTypeWork(step0.typeWork);
           setCity(step0.city);
           setAdresse(step0.adresse);
           setPhone(step0.hiddenPhone);
@@ -69,20 +67,18 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
   const [catErr, setcatErr] = useState("");
   const [titleErr, setTitleErr] = useState("");
 
+  // * step 2
+  const [imgs, setImgs] = useState<any[]>([]);
+  const [favIndex, setFavIndex] = useState<number>(-1);
+
   // ? validation
   const validation0 = () => {
-    if (typeWork === "") {
-      settypeWorkErr("Type de travail est requise");
-      return false;
-    }
     if (city === "") {
       setCityErr("City is required");
-      settypeWorkErr("");
       return false;
     }
 
     setCityErr("");
-    settypeWorkErr("");
     return true;
   };
 
@@ -117,7 +113,6 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
       .post(
         "http://localhost:3001/new/post/step0",
         {
-          typeWork,
           city,
           adresse,
           phone,
@@ -155,6 +150,50 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
       });
   };
 
+  const sendData2 = () => {
+    setLoading(true);
+    if (imgs.length <= 0 && imgs.length > 8) {
+      setLoading(false);
+      return false;
+    }
+
+    axios
+      .post(
+        "http://localhost:3001/new/post/step2",
+        { imgs, favIndex },
+        { withCredentials: true },
+      )
+      .then((result) => {
+        if (result.data.msg) {
+          setStep(step + 1);
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
+
+  const sendData3 = () => {
+    setLoading(true);
+    axios
+      .post(
+        "http://localhost:3001/new/post/step3",
+        {},
+        { withCredentials: true },
+      )
+      .then((result) => {
+        window.location.href = "/";
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        window.location.reload();
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     switch (step) {
       case 0:
@@ -162,22 +201,18 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
           <Content0
             adresse={adresse}
             cityErr={cityErr}
-            typeWorkErr={typeWorkErr}
             userData={userData}
             city={city}
             phone={phone}
             setAdresse={setAdresse}
             setCity={setCity}
             setPhone={setPhone}
-            setTypeWork={setTypeWork}
-            typeWork={typeWork}
           />,
         );
         break;
       case 1:
         setContent(
           <Content1
-            typeWork={typeWork}
             description={description}
             title={title}
             catErr={catErr}
@@ -192,7 +227,27 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
         );
         break;
       case 2:
-        setContent(<Content2 userData={userData} />);
+        setContent(
+          <Content2
+            imgs={imgs}
+            setImgs={setImgs}
+            userData={userData}
+            favIndex={favIndex}
+            setFavIndex={setFavIndex}
+          />,
+        );
+        break;
+      case 3:
+        setContent(
+          <Content3
+            adresse={adresse}
+            city={city}
+            favIndex={favIndex}
+            imgs={imgs}
+            description={description}
+            title={title}
+          />,
+        );
         break;
     }
   }, [
@@ -201,13 +256,13 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
     city,
     cityErr,
     description,
+    favIndex,
+    imgs,
     mainCat,
     phone,
     step,
     title,
     titleErr,
-    typeWork,
-    typeWorkErr,
     userData,
   ]);
 
@@ -215,7 +270,7 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
     <>
       <div className="bg-gray-100 pb-12">
         <Navigator step={step} setSteps={setStep} />
-        <section className="rounded-lg md:mx-44 sm:mx-12 mx-4 bg-white sm:px-10 px-5 mt-10">
+        <section className="rounded-lg md:mx-20 lg:mx-44 sm:mx-12 bg-white sm:px-2 my-20">
           <div className="max-w-3xl px-4 py-8 mx-auto lg:py-12">{content}</div>
         </section>
       </div>
@@ -223,8 +278,13 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
         <button
           disabled={loading ? true : false}
           type="submit"
-          className="ml-auto px-7 py-2.5 text-center  text-white bg-gray-800 hover:bg-gray-700
-                font-medium rounded-lg text-sm focus:outline-none"
+          className={`ml-auto px-7 py-2.5 text-center   
+                font-medium rounded-lg text-sm focus:outline-none
+                ${
+                  step === 3
+                    ? "bg-teal-600 text-white hover:opacity-75"
+                    : "text-white bg-gray-800 hover:bg-gray-700"
+                }`}
           onClick={() => {
             switch (step) {
               case 0:
@@ -232,6 +292,12 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
                 break;
               case 1:
                 sendData1();
+                break;
+              case 2:
+                sendData2();
+                break;
+              case 3:
+                sendData3();
                 break;
             }
           }}
@@ -258,7 +324,7 @@ const NewPost: React.FC<newPost> = ({ loged, userData }) => {
               Chargement...
             </>
           ) : (
-            "Suivant"
+            <div>{step === 3 ? "Publier" : "Suivant"}</div>
           )}
         </button>
       </div>

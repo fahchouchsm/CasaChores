@@ -13,12 +13,14 @@ import SettingNav from "./components/profile/settings/settingNav";
 import BecomeSeller from "./pages/becomeSeller";
 import EditAccount from "./pages/editAccout";
 import NewPost from "./pages/newPost";
-import HomeFilter from "./pages/homeFilter";
+import Search from "./pages/search";
+import Post from "./pages/post";
 
-export default function App(): React.ReactElement {
+export default function App() {
   const [loged, setLoged] = useState(false);
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [autoCity, setAutoCity] = useState<string>("");
 
   useEffect(() => {
     axios
@@ -34,14 +36,33 @@ export default function App(): React.ReactElement {
       .catch((err) => {
         setLoged(false);
         setUserData(null);
-        console.error(err);
       })
       .finally(() => {
         setLoading(false);
       });
   }, [loged]);
 
+  const fetchCity = async () => {
+    try {
+      const position = await new Promise<GeolocationPosition>(
+        (resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        },
+      );
+
+      const { latitude, longitude } = position.coords;
+      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      setAutoCity(data.address.city);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (loading) {
+    fetchCity();
     return (
       <div className="h-screen">
         <Loading />
@@ -52,96 +73,103 @@ export default function App(): React.ReactElement {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Index */}
+        {/* authentication */}
         <Route path="/">
           <Route index element={<Home userData={userData} loged={loged} />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
         </Route>
-        {/* Testing */}
+        {/* Search */}
         <Route
-          path="/test"
+          path="/search/:category"
           element={
-            <HomeFilter
-              loadingP={loading}
-              logedP={loged}
-              setLoadingP={setLoading}
-              setLogedP={setLoged}
-              userDataP={userData}
-            />
+            <Search loged={loged} userData={userData} autoCity={autoCity} />
           }
         />
+        {/* Post view */}
+        <Route
+          path="/post/:id"
+          element={<Post loged={loged} userData={userData} />}
+        />
         {/* Settings */}
-        <Route path="settings">
-          <Route
-            path="profile/:id?"
-            element={
-              <Profile
-                loading={loading}
-                setLoading={setLoading}
-                userData={userData}
-                setUserData={setUserData}
-                loged={loged}
-              />
-            }
-          />
-          <Route path="user">
+        <>
+          <Route path="settings">
             <Route
-              path="nav/:id?"
-              index
+              path="profile/:id?"
               element={
-                <SettingNav
+                <Profile
+                  loading={loading}
+                  setLoading={setLoading}
                   userData={userData}
+                  setUserData={setUserData}
                   loged={loged}
+                />
+              }
+            />
+            <Route path="user">
+              <Route
+                path="nav/:id?"
+                index
+                element={
+                  <SettingNav
+                    userData={userData}
+                    loged={loged}
+                    setUserData={setUserData}
+                  />
+                }
+              />
+              <Route
+                path="edit/account/:id"
+                element={<EditAccount loged={loged} userData={userData} />}
+              />
+            </Route>
+
+            <Route
+              path="account/:id"
+              element={
+                <Account
+                  loged={loged}
+                  userData={userData}
                   setUserData={setUserData}
                 />
               }
             />
             <Route
-              path="edit/account/:id"
-              element={<EditAccount loged={loged} userData={userData} />}
+              path="notification/:id"
+              //todo
             />
           </Route>
-
           <Route
-            path="account/:id"
+            path="/logout"
             element={
-              <Account
-                loged={loged}
+              <Logout
+                loading={loading}
+                setLoading={setLoading}
                 userData={userData}
-                setUserData={setUserData}
               />
             }
           />
+        </>
+        {/* Become a seller */}
+        <>
           <Route
-            path="notification/:id"
-            //todo
+            path="/becomeseller/:id"
+            element={
+              <BecomeSeller
+                userData={userData}
+                setUserData={setUserData}
+                loged={loged}
+              />
+            }
           />
-        </Route>
-        <Route
-          path="/logout"
-          element={
-            <Logout
-              loading={loading}
-              setLoading={setLoading}
-              userData={userData}
-            />
-          }
-        />
-        <Route
-          path="/becomeseller/:id"
-          element={
-            <BecomeSeller
-              userData={userData}
-              setUserData={setUserData}
-              loged={loged}
-            />
-          }
-        />
-        <Route
-          path="/new/post"
-          element={<NewPost loged={loged} userData={userData} />}
-        />
+        </>
+        {/* New post */}
+        <>
+          <Route
+            path="/new/post"
+            element={<NewPost loged={loged} userData={userData} />}
+          />
+        </>
         <Route path="*" element={<E404 />} />
       </Routes>
     </BrowserRouter>

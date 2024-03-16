@@ -4,14 +4,11 @@ import SideBarVille from "./sideBarVille";
 
 interface content0 {
   userData: any;
-  setTypeWork: (e: string) => void;
-  typeWork: string;
   setCity: (e: string) => void;
   city: string;
   setAdresse: (e: string) => void;
   phone: boolean;
   setPhone: (e: boolean) => void;
-  typeWorkErr: string;
   cityErr: string;
   adresse: string;
 }
@@ -21,13 +18,10 @@ const Content0: React.FC<content0> = ({
   setAdresse,
   setCity,
   setPhone,
-  setTypeWork,
-  typeWork,
   city,
   phone,
   adresse,
   cityErr,
-  typeWorkErr,
 }) => {
   //
   const [open, setOpen] = useState(false);
@@ -83,37 +77,6 @@ const Content0: React.FC<content0> = ({
         Grâce à ces informations les acheteurs peuvent trouver votre annonce
         plus facilement
       </div>
-      {/*  */}
-      <div className="pl-1 text-sm font-medium text-gray-900">
-        Type de travail :
-      </div>
-      <div className="flex flex-row mt-2 gap-3">
-        <div
-          className={`border  cursor-pointer rounded-full py-2 px-2.5 hover:text-teal-600 hover:border-teal-600 ${
-            typeWork === "presence"
-              ? "border-teal-600 bg-teal-50 text-teal-600"
-              : "border-gray-700 bg-white text-black"
-          } `}
-          onClick={() => {
-            setTypeWork("presence");
-          }}
-        >
-          En présentiel
-        </div>
-        <div
-          className={`border  cursor-pointer rounded-full py-2 px-2.5 hover:text-teal-600 hover:border-teal-600 ${
-            typeWork === "online"
-              ? "border-teal-600 bg-teal-50 text-teal-600"
-              : "border-gray-700 bg-white text-black"
-          } `}
-          onClick={() => {
-            setTypeWork("online");
-          }}
-        >
-          À distance
-        </div>
-      </div>
-      {typeWorkErr !== "" ? errMsg(typeWorkErr) : null}
       {/*  */}
       <label
         htmlFor="ville"

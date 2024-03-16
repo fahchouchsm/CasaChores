@@ -22,26 +22,22 @@ const ProfileChangePfp: React.FC<ProfileChangePfpProps> = ({
       const formData = new FormData();
       formData.append("image", files[0]);
       formData.append("userId", userData._id);
-
-      try {
-        const response = await axios.post(
-          "http://localhost:3001/upload/user/pfp",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            params: {
-              userId: userData._id,
-            },
+      const response = await axios.post(
+        "http://localhost:3001/upload/user/pfp",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
           },
-        );
+          withCredentials: true,
+          params: {
+            userId: userData._id,
+          },
+        },
+      );
 
-        setUserData(response.data.result);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error uploading:", error);
-      }
+      await setUserData(response.data.result);
+      setLoading(false);
     } else {
       window.location.reload();
     }

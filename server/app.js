@@ -9,6 +9,7 @@ const userNameChecker = require("./router/events/userNameChecker");
 const getCategories = require("./router/events/getCategory");
 const getCity = require("./router/events/getCity");
 const getImg = require("./router/post/getPost");
+const removeImg = require("./router/events/removeImg");
 const registerRouter = require("./router/auth/register");
 const createSellerRouter = require("./router/events/createSeller");
 const newPost = require("./router/events/newPost");
@@ -52,6 +53,8 @@ app.use("/get", getCategories);
 app.use("/get", getCity);
 // ? get postImg
 app.use("/get", getImg);
+// ? removeImg
+app.use("/remove", removeImg);
 // ? register
 app.use("/register", registerRouter);
 // ? create seller

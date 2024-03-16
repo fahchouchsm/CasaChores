@@ -2,17 +2,15 @@ import CityAutoSearch from "./cityAutoSearch";
 import DescCat from "./descCat";
 
 interface searchBar {
-  selectedCatP: number;
-  setSelectedCatP: (i: number) => void;
+  autoCity: string;
+  setSelCity: (e: string) => void;
+  selCity: string;
 }
 
-const SearchBar: React.FC<searchBar> = (p) => {
+const SearchBar: React.FC<searchBar> = ({ selCity, setSelCity }) => {
   return (
     <>
-      <DescCat
-        selectedCatP={p.selectedCatP}
-        setSelectedCatP={p.setSelectedCatP}
-      />
+      <DescCat />
 
       <div className="w-full mb-6">
         <div
@@ -51,7 +49,7 @@ const SearchBar: React.FC<searchBar> = (p) => {
               />
             </div>
             <div className="min-w-[260px] lg:mr-5 mb-3 lg:mb-0">
-              <CityAutoSearch />
+              <CityAutoSearch selCity={selCity} setSelCity={setSelCity} />
             </div>
           </div>
         </div>

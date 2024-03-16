@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 interface navigator {
   step: number;
   setSteps: (e: number) => void;
@@ -74,8 +76,8 @@ const Navigator: React.FC<navigator> = ({ setSteps, step }) => {
       ),
     },
     {
-      name: "Information Général",
-      subName: "Remplir les informations générales de votre annonce",
+      name: "Publication de l'annonce",
+      subName: "Confirmer les informations de votre annonce",
       selected: 3,
       arrow: false,
       icon: (
@@ -83,19 +85,18 @@ const Navigator: React.FC<navigator> = ({ setSteps, step }) => {
           className="w-6 h-6"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
-          fill="none"
+          width="24"
+          height="24"
+          fill="currentColor"
           viewBox="0 0 24 24"
         >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="2"
-            d="M5 7h14M5 12h14M5 17h14"
-          />
+          <path d="M13.09 3.294c1.924.95 3.422 1.69 5.472.692a1 1 0 0 1 1.438.9v9.54a1 1 0 0 1-.562.9c-2.981 1.45-5.382.24-7.25-.701a38.739 38.739 0 0 0-.622-.31c-1.033-.497-1.887-.812-2.756-.77-.76.036-1.672.357-2.81 1.396V21a1 1 0 1 1-2 0V4.971a1 1 0 0 1 .297-.71c1.522-1.506 2.967-2.185 4.417-2.255 1.407-.068 2.653.453 3.72.967.225.108.443.216.655.32Z" />
         </svg>
       ),
     },
   ];
+
+  const navigate = useNavigate();
 
   return (
     <div
@@ -195,12 +196,17 @@ const Navigator: React.FC<navigator> = ({ setSteps, step }) => {
         })}
       </div>
 
-      <div className="sm:block hidden ml-auto font-semibold cursor-pointer">
+      <div
+        className="sm:block hidden ml-auto font-semibold cursor-pointer"
+        onClick={() => {
+          navigate(-1);
+        }}
+      >
         Quitter
       </div>
       <div className="ml-auto sm:hidden block ">
         <svg
-          className="w-6 h-6 text-gray-800 dark:text-white"
+          className="w-4 h-4"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

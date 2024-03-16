@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const sellerSchema = require("./sellerSchema");
 
 const postSchema = new mongoose.Schema({
   title: {
@@ -15,14 +16,6 @@ const postSchema = new mongoose.Schema({
   specifiqueLocation: {
     type: String,
   },
-  sellerType: {
-    type: String,
-    enum: ["individual", "company"],
-  },
-  typeWork: {
-    type: String,
-    enum: ["presence", "online"],
-  },
   serviceOfred: [String],
   availability: {
     type: Boolean,
@@ -30,7 +23,6 @@ const postSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
   },
   phone: {
     type: String,
@@ -43,8 +35,15 @@ const postSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
+  },
+  seller: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Seller",
+    required: true,
   },
 
+  favImg: Number,
   images: [
     {
       type: String,

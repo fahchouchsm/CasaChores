@@ -1,13 +1,20 @@
 import SideBarCat from "./sideBarCat";
 
 interface sideFilter {
-  typeCatP: number;
+  typeCat: number;
   setTypeCat: (i: number) => void;
+  catP: any[];
+  catO: any[];
 }
 
-const SideFilter: React.FC<sideFilter> = (p) => {
+const SideFilter: React.FC<sideFilter> = ({
+  catO,
+  catP,
+  setTypeCat,
+  typeCat,
+}) => {
   const handleButtonClick = (buttonType: number) => {
-    p.setTypeCat(buttonType);
+    setTypeCat(buttonType);
   };
 
   return (
@@ -24,13 +31,13 @@ const SideFilter: React.FC<sideFilter> = (p) => {
             type="button"
             className={`inline-flex justify-center group items-center px-4 py-2 text-sm font-medium
               border rounded-l-lg focus:z-10 focus:ring-0  
-              ${p.typeCatP === 0 ? " bg-gray-800" : " bg-white"}
+              ${typeCat === 0 ? " bg-gray-800" : " bg-white"}
               `}
             onClick={() => handleButtonClick(0)}
           >
             <svg
               className={`w-4 h-4 ${
-                p.typeCatP === 0 ? "text-gray-100" : "text-gray-800"
+                typeCat === 0 ? "text-gray-100" : "text-gray-800"
               } `}
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
@@ -44,14 +51,14 @@ const SideFilter: React.FC<sideFilter> = (p) => {
             type="button"
             className={`inline-flex justify-center group items-center px-4 py-2 text-sm font-medium border
               rounded-r-lg focus:z-10 focus:ring-0   
-              ${p.typeCatP === 1 ? " bg-gray-800" : " bg-white"}
+              ${typeCat === 1 ? " bg-gray-800" : " bg-white"}
 
               `}
             onClick={() => handleButtonClick(1)}
           >
             <svg
               className={`w-4 h-4 ${
-                p.typeCatP === 1 ? "text-gray-100" : "text-gray-800"
+                typeCat === 1 ? "text-gray-100" : "text-gray-800"
               } `}
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +71,7 @@ const SideFilter: React.FC<sideFilter> = (p) => {
         </div>
       </div>
 
-      <SideBarCat />
+      <SideBarCat catO={catO} catP={catP} />
     </aside>
   );
 };

@@ -13,7 +13,6 @@ interface content1 {
   titleErr: string;
   title: string;
   description: string;
-  typeWork: string;
 }
 
 const Content1: React.FC<content1> = ({
@@ -25,7 +24,6 @@ const Content1: React.FC<content1> = ({
   catErr,
   titleErr,
   title,
-  typeWork,
   description,
   setSubCat1,
 }) => {
@@ -117,7 +115,6 @@ const Content1: React.FC<content1> = ({
               name="Catégories"
               content={
                 <SidebarCategorie
-                  typeWork={typeWork}
                   setSubCat1={setSubCat1}
                   setCategorieSvg={setCategorieSvg}
                   setOpen={setOpen}
@@ -161,7 +158,7 @@ const Content1: React.FC<content1> = ({
           </label>
           <textarea
             id="description"
-            maxLength={365}
+            maxLength={700}
             rows={8}
             className="block resize-none p-2.5 w-full text-sm text-gray-900 rounded-lg border
               border-gray-200 focus:ring-gray-700 focus:border-gray-800"

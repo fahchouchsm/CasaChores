@@ -23,19 +23,6 @@ const sellerSchema = new mongoose.Schema({
   address: {
     type: String,
   },
-
-  services: [
-    {
-      mainCategorie: {
-        type: mongoose.Types.ObjectId,
-        ref: "MainCategorie",
-      },
-      subCategorie: {
-        type: mongoose.Types.ObjectId,
-        ref: "SubCategorie",
-      },
-    },
-  ],
 });
 
 module.exports = mongoose.model("Seller", sellerSchema);

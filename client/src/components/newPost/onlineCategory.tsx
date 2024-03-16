@@ -116,7 +116,6 @@ const OnlineCategory: React.FC<onlineCategory> = ({
                           setSubCat(sub.name);
                           setSubCat1(sub.name);
                           setOpen(false);
-                          setMainCat(sub.name);
                           setCategorieSvg(cat.icon);
                         }}
                       >

@@ -8,11 +8,6 @@ const prePostSchema = new mongoose.Schema({
   },
 
   step0: {
-    typeWork: {
-      type: String,
-      required: true,
-      enum: ["presence", "online"],
-    },
     city: {
       type: String,
       required: true,
@@ -46,6 +41,7 @@ const prePostSchema = new mongoose.Schema({
   },
 
   step2: {
+    favIndex: Number,
     imgUrl: [
       {
         type: String,
