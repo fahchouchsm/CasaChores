@@ -25,6 +25,8 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
   const [catO, setCatO] = useState<any[]>([]);
   const [selCity, setSelCity] = useState(autoCity);
 
+  console.log(posts);
+
   useEffect(() => {
     const fetchData = async () => {
       try {

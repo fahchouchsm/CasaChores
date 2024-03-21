@@ -13,6 +13,7 @@ const removeImg = require("./router/events/removeImg");
 const registerRouter = require("./router/auth/register");
 const createSellerRouter = require("./router/events/createSeller");
 const newPost = require("./router/events/newPost");
+const newComment = require("./router/events/newComment");
 const logedChecking = require("./middleware/jwt/logedChecking");
 const wsChecker = require("./bot/wsCheck");
 const userSettings = require("./router/userSettings/userSettings");
@@ -22,9 +23,29 @@ const logoutRouter = require("./router/auth/logout");
 const uploadRouter = require("./router/events/imgUpload");
 
 const connection = require("./database/connection");
+const helmet = require("helmet");
 
 const app = express();
 require("dotenv").config();
+app.disable("etag");
+
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store");
+  res.setHeader("Expires", "-1");
+  res.setHeader("Pragma", "no-cache");
+  next();
+});
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    cacheControl: {
+      directives: {
+        "no-store": true,
+      },
+    },
+  })
+);
 
 const port = process.env.PORT;
 const sessionMiddleware = session({
@@ -45,43 +66,30 @@ app.use(sessionMiddleware);
 
 app.use("/uploads", express.static("uploads"));
 
-// ? userName checker
 app.use("/check", userNameChecker);
-// ? get categories
 app.use("/get", getCategories);
-// ? get city's
 app.use("/get", getCity);
-// ? get postImg
 app.use("/get", getImg);
-// ? removeImg
 app.use("/remove", removeImg);
-// ? register
 app.use("/register", registerRouter);
-// ? create seller
 app.use("/new", createSellerRouter);
-// ? new post
 app.use("/new", newPost);
-// ? login
+app.use("/new", newComment);
 app.use("/login", loginRouter);
-// ? logout
 app.use("/logout", logoutRouter);
-// ? loged checking
 app.use("/jwt", logedChecking);
-// ? ws Check
 app.use("/ws", wsChecker);
-// ? user settings
 app.use("/usersettings", userSettings);
-// ? edit user
 app.use("/edit/user", editUser);
-//  ? uploads
 app.use("/upload", uploadRouter);
 
-// * test
-const categoryOSchema = require("./schema/category/categoryOSchema");
+const userSchema = require("./schema/userSchema");
+app.get("/test", async (req, res) => {
+  const result = await userSchema.find();
+  console.log(result);
+  res.json(result);
+});
 
-app.get("/test", async (req, res) => {});
-
-// !!
 app.listen(port, () => {
   console.log(`App running on port ${port}`);
 });

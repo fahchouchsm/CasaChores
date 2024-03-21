@@ -1,5 +1,5 @@
 import NavBar from "../components/navbar/navBar";
-import PostView from "../components/post/postViex";
+import PostView from "../components/post/postView";
 
 interface post {
   loged: boolean;

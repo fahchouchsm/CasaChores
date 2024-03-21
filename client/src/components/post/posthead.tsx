@@ -1,11 +1,13 @@
+import { useState } from "react";
 import PostComment from "./postComment";
 import PostImgs from "./postImgs";
 
 interface posthead {
   post: any;
+  fetchData: () => void;
 }
 
-const PostHead: React.FC<posthead> = ({ post }) => {
+const PostHead: React.FC<posthead> = ({ post, fetchData }) => {
   const imgSvg = (
     <svg
       className="w-6 h-6 text-gray-800 "
@@ -89,9 +91,29 @@ const PostHead: React.FC<posthead> = ({ post }) => {
       ></path>
     </svg>
   );
+  const plusSvg = (
+    <svg
+      className="w-4 h-4  "
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M5 12h14m-7 7V5"
+      />
+    </svg>
+  );
 
   const { user, seller } = post;
-  console.log(post);
+
+  const [commentAdd, setCommentAdd] = useState(false);
   return (
     <>
       <div className="flex flex-row">
@@ -110,7 +132,7 @@ const PostHead: React.FC<posthead> = ({ post }) => {
           <div className="flex items-center text-sm">
             {starSvg}
             <span className="ml-1">
-              {user.userRating} ({user.reviews.length})
+              {user.userRating} ({user.reviews?.length || 0})
             </span>
           </div>
           <div className="flex items-center text-sm">
@@ -148,10 +170,28 @@ const PostHead: React.FC<posthead> = ({ post }) => {
           </div>
           <PostImgs post={post} />
         </div>
-        <div className="text-gray-900 flex text-md font-semibold mb-3">
-          {commentSvg}&nbsp;Commentaires ({user.reviews.length})
+        <div className="text-gray-900 text-md font-semibold mb-3">
+          <div className="flex items-center mb-3">
+            {commentSvg}&nbsp;Commentaires
+            {user.reviews ? `(${user.reviews.length})` : " (0)"}
+            <div className="ml-auto">
+              <button
+                className="inline-flex ml-auto items-center px-3 py-2 md:text-sm text-xs font-medium text-center
+        text-white bg-gray-800 rounded-lg hover:opacity-90 focus:outline-none gap-1"
+                onClick={() => setCommentAdd(!commentAdd)}
+              >
+                {plusSvg}
+                Ajouter un commentaire
+              </button>
+            </div>
+          </div>
+          <PostComment
+            post={post}
+            commentAdd={commentAdd}
+            setCommentAdd={setCommentAdd}
+            fetchData={fetchData}
+          />
         </div>
-        <PostComment />
       </div>
     </>
   );

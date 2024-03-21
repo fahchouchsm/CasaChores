@@ -67,15 +67,20 @@ router.get("/post/:id", async (req, res) => {
       .findById(id)
       .populate({
         path: "user",
-        select: "name lastName userRating reviews pfpLink userName reviews",
+        select: "name lastName userRating comments pfpLink userName",
+        populate: {
+          path: "comments.user",
+          select: "name lastName pfpLink userName",
+        },
       })
       .populate({
         path: "seller",
-        select: "bio userName sellerType userName",
+        select: "bio userName sellerType",
       });
     res.json({ post: result });
   } catch (error) {
-    res.status(500).json({ msg: "error" });
+    console.error(error);
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 });
 
