@@ -14,6 +14,7 @@ const registerRouter = require("./router/auth/register");
 const createSellerRouter = require("./router/events/createSeller");
 const newPost = require("./router/events/newPost");
 const newComment = require("./router/events/newComment");
+const voteComment = require("./router/events/voteComment");
 const logedChecking = require("./middleware/jwt/logedChecking");
 const wsChecker = require("./bot/wsCheck");
 const userSettings = require("./router/userSettings/userSettings");
@@ -21,31 +22,18 @@ const editUser = require("./router/userSettings/editUser");
 const loginRouter = require("./router/auth/login");
 const logoutRouter = require("./router/auth/logout");
 const uploadRouter = require("./router/events/imgUpload");
+const chatRouter = require("./router/events/chat");
 
 const connection = require("./database/connection");
-const helmet = require("helmet");
 
 const app = express();
 require("dotenv").config();
-app.disable("etag");
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
 
-app.use((req, res, next) => {
-  res.setHeader("Cache-Control", "no-store");
-  res.setHeader("Expires", "-1");
-  res.setHeader("Pragma", "no-cache");
-  next();
-});
-
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-    cacheControl: {
-      directives: {
-        "no-store": true,
-      },
-    },
-  })
-);
+app.use(cors(corsOptions));
 
 const port = process.env.PORT;
 const sessionMiddleware = session({
@@ -59,7 +47,7 @@ const sessionMiddleware = session({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+
 app.use(cookieParser());
 app.use(morgan(":method :url :status - :response-time ms"));
 app.use(sessionMiddleware);
@@ -74,6 +62,7 @@ app.use("/remove", removeImg);
 app.use("/register", registerRouter);
 app.use("/new", createSellerRouter);
 app.use("/new", newPost);
+app.use("/vote", voteComment);
 app.use("/new", newComment);
 app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
@@ -82,6 +71,7 @@ app.use("/ws", wsChecker);
 app.use("/usersettings", userSettings);
 app.use("/edit/user", editUser);
 app.use("/upload", uploadRouter);
+app.use("/chat", chatRouter);
 
 const userSchema = require("./schema/userSchema");
 app.get("/test", async (req, res) => {

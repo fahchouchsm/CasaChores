@@ -8,33 +8,50 @@ import Loading from "../../pages/loading";
 interface SearchFilterProps {
   typeCat: number;
   setTypeCat: (i: number) => void;
-  search: string | undefined;
+  searchQuery: string | undefined;
   autoCity: string;
+  setSearchQuery: (e: string) => void;
 }
 
 const SearchFilter: React.FC<SearchFilterProps> = ({
   setTypeCat,
   typeCat,
-  search,
+  searchQuery,
+  setSearchQuery,
   autoCity,
 }) => {
   const [loading, setLoading] = useState(true);
   const [loadingContent, setLoadingContent] = useState(true);
   const [posts, setPosts] = useState<any[] | null>(null);
-  const [catP, setCatP] = useState<any[]>([]);
-  const [catO, setCatO] = useState<any[]>([]);
+  const [cats, setCats] = useState<any[]>([]);
   const [selCity, setSelCity] = useState(autoCity);
+  const [selCat, setSelCat] = useState<string | null>(null);
 
-  console.log(posts);
+  useEffect(() => {
+    try {
+      const fetchData = async () => {
+        setLoadingContent(true);
+        const result = await axios.post(
+          `http://localhost:3001/get/posts/${searchQuery}`,
+          { typeCat, city: selCity, selCat }
+        );
+        setPosts(result.data.response);
+        setLoadingContent(false);
+      };
+      fetchData();
+    } catch (error) {
+      console.log(error);
+      setLoadingContent(false);
+    }
+  }, [searchQuery, selCity, typeCat, selCat]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:3001/get/posts/categorys",
+          "http://localhost:3001/get/posts/categorys"
         );
-        setCatP(result.data.catP);
-        setCatO(result.data.catO);
+        setCats(result.data.catP);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -43,26 +60,6 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
     };
     fetchData();
   }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoadingContent(true);
-      try {
-        let url = `http://localhost:3001/get/posts/${search}/${typeCat}`;
-        if (selCity) {
-          url += `/${selCity}`;
-        }
-        const result = await axios.get(url);
-        setPosts(result.data.res);
-        setLoadingContent(false);
-      } catch (error) {
-        setLoadingContent(false);
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [search, selCity, typeCat]);
 
   useEffect(() => {
     setSelCity(autoCity);
@@ -79,6 +76,8 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
   return (
     <div className=" mx-auto px-5 mb-5">
       <SearchBar
+        setSearchQuery={setSearchQuery}
+        searchQuery={searchQuery}
         selCity={selCity}
         setSelCity={setSelCity}
         autoCity={autoCity}
@@ -87,9 +86,10 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
         <div className="hidden md:block col-span-1">
           <SideFilter
             typeCat={typeCat}
-            catO={catO}
-            catP={catP}
+            cats={cats}
             setTypeCat={setTypeCat}
+            selCat={selCat}
+            setSelCat={setSelCat}
           />
         </div>
         <div className="md:col-span-3 col-span-4">

@@ -33,7 +33,7 @@ const ProfileChangePfp: React.FC<ProfileChangePfpProps> = ({
           params: {
             userId: userData._id,
           },
-        },
+        }
       );
 
       await setUserData(response.data.result);
@@ -62,11 +62,7 @@ const ProfileChangePfp: React.FC<ProfileChangePfpProps> = ({
               />
               <img
                 className="w-24 h-24 mb-3 object-cover rounded-full shadow-lg hover:opacity-50 cursor-pointer"
-                src={
-                  userData.pfpLink
-                    ? userData.pfpLink
-                    : "/img/icons/defaultPpf.png"
-                }
+                src={userData.pfpLink}
                 alt="PFP"
               />
               <div

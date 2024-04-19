@@ -3,15 +3,17 @@ import SideBarCat from "./sideBarCat";
 interface sideFilter {
   typeCat: number;
   setTypeCat: (i: number) => void;
-  catP: any[];
-  catO: any[];
+  cats: any[];
+  selCat: string | null;
+  setSelCat: (e: string | null) => void;
 }
 
 const SideFilter: React.FC<sideFilter> = ({
-  catO,
-  catP,
+  cats,
   setTypeCat,
   typeCat,
+  selCat,
+  setSelCat,
 }) => {
   const handleButtonClick = (buttonType: number) => {
     setTypeCat(buttonType);
@@ -71,7 +73,7 @@ const SideFilter: React.FC<sideFilter> = ({
         </div>
       </div>
 
-      <SideBarCat catO={catO} catP={catP} />
+      <SideBarCat cats={cats} selCat={selCat} setSelCat={setSelCat} />
     </aside>
   );
 };

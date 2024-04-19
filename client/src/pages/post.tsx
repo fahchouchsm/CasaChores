@@ -6,11 +6,11 @@ interface post {
   userData: any;
 }
 
-const Post: React.FC<post> = ({ loged, userData }) => {
+const Post: React.FC<post> = ({ userData, loged }) => {
   return (
     <>
       <NavBar loged={loged} userData={userData} />
-      <PostView />
+      <PostView userData={userData} loged={loged} />
     </>
   );
 };

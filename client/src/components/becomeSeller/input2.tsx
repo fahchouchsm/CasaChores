@@ -29,30 +29,27 @@ const Input2: React.FC<input2> = ({
       const formData = new FormData();
       formData.append("image", files[0]);
       formData.append("userId", userData._id);
-
-      try {
-        const response = await axios.post(
-          "http://localhost:3001/upload/user/pfp",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            params: {
-              userId: userData._id,
-            },
+      const response = await axios.post(
+        "http://localhost:3001/upload/user/pfp",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
           },
-        );
+          withCredentials: true,
+          params: {
+            userId: userData._id,
+          },
+        }
+      );
 
-        setUserData(response.data.result);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error uploading:", error);
-      }
+      await setUserData(response.data.result);
+      setLoading(false);
     } else {
       window.location.reload();
     }
   };
+
   const [bio, setBio] = useState<string>("");
 
   const handleSubmit = () => {
@@ -63,7 +60,7 @@ const Input2: React.FC<input2> = ({
         { typeSelc, userName, bio },
         {
           withCredentials: true,
-        },
+        }
       )
       .then((res) => {
         console.log(res);
@@ -97,11 +94,7 @@ const Input2: React.FC<input2> = ({
                   />
                   <img
                     className="w-24 h-24 mb-3 rounded-full shadow-lg hover:opacity-50 cursor-pointer"
-                    src={
-                      userData.pfpLink
-                        ? userData.pfpLink
-                        : "/img/icons/defaultPpf.png"
-                    }
+                    src={userData.pfpLink}
                     alt="PFP"
                   />
                   <div
@@ -125,9 +118,9 @@ const Input2: React.FC<input2> = ({
             )}
           </div>
           <h5 className="mb-1 text-lg text-center font-medium text-gray-900">
-            {userName}
+            {userData.lastName} {userData.name}
           </h5>
-          <span className="text-sm text-gray-500 mb-2">{`${userData.lastName} ${userData.name}`}</span>
+          <span className="text-sm text-gray-500 mb-2">{userName}</span>
         </div>
         <div className="flex flex-col col-span-2  justify-center  text-left">
           <div className="mb-2  text-sm font-medium text-gray-900 text-left">

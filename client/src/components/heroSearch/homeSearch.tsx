@@ -1,25 +1,42 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import catData from "../../catData.json";
 import SearchDropdown from "./searchDropdown";
 import axios from "axios";
 
 const HomeSearch: React.FC = () => {
   const [query, setQuery] = useState<string>("");
-  const [searchResults, setSearchResult] = useState<any[]>([]);
+  const [searchResults, setSearchResult] = useState<string[]>([]);
+  const [allServices, setAllServices] = useState<string[]>([]);
 
-  const allServices = Object.values(catData).flatMap(
-    (categoryServices) => categoryServices,
-  );
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await axios.get(
+          "http://localhost:3001/get/posts/categorys"
+        );
+
+        console.log(result.data.catP);
+        const concatenatedArray = result.data.catP.reduce(
+          (accumulator: any, currentValue: any) => {
+            accumulator.push(currentValue.name);
+            currentValue.sub.forEach((subCategory: string) => {
+              accumulator.push(subCategory);
+            });
+            return accumulator;
+          },
+          []
+        );
+        setAllServices(concatenatedArray);
+        setSearchResult(concatenatedArray);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchResults.length > 0) {
-      const firstResult = searchResults[0];
-      window.location.href = `/search/${encodeURIComponent(firstResult)}`;
-    } else {
-      console.log("here:", query);
-      console.log("nothing");
-    }
+    window.location.href = `/search/${encodeURIComponent(query)}`;
   };
 
   const handleQuery = (event: ChangeEvent<HTMLInputElement>) => {
@@ -27,30 +44,10 @@ const HomeSearch: React.FC = () => {
     setQuery(inputValue);
 
     const results = allServices.filter((service) =>
-      service.toLowerCase().includes(inputValue.toLowerCase()),
+      service.toLowerCase().includes(inputValue.toLowerCase())
     );
     setSearchResult(results);
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get(
-          "http://localhost:3001/get/posts/categorys",
-        );
-        setSearchResult(
-          result.data.catP
-            .map((sub: any) => {
-              return sub.sub;
-            })
-            .flat(),
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
 
   return (
     <form className="flex items-center mt-5" onSubmit={submitHandler}>

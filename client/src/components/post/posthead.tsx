@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PostComment from "./postComment";
 import PostImgs from "./postImgs";
 
 interface posthead {
   post: any;
   fetchData: () => void;
+  userData: any;
+  loged: boolean;
 }
 
-const PostHead: React.FC<posthead> = ({ post, fetchData }) => {
+const PostHead: React.FC<posthead> = ({ post, fetchData, userData, loged }) => {
   const imgSvg = (
     <svg
       className="w-6 h-6 text-gray-800 "
@@ -110,8 +112,51 @@ const PostHead: React.FC<posthead> = ({ post, fetchData }) => {
       />
     </svg>
   );
+  const penSvg = (
+    <svg
+      className="w-4 h-4 text-white"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        fillRule="evenodd"
+        d="M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
 
   const { user, seller } = post;
+  const [current, setCurrent] = useState(true);
+
+  const contactHandler = () => {
+    if (!loged) {
+      window.location.href = "/login";
+    }
+    window.location.href = `/chat/${post.user._id}`;
+  };
+  const editHandler = () => {
+    window.location.href = `/post/edit/${post._id}`;
+  };
+
+  useEffect(() => {
+    const currentSetter = () => {
+      if (userData && userData._id && user && user._id) {
+        if (user._id === userData._id) {
+          setCurrent(true);
+        } else {
+          setCurrent(false);
+        }
+      } else {
+        setCurrent(false);
+      }
+    };
+    currentSetter();
+  }, [user, userData]);
 
   const [commentAdd, setCommentAdd] = useState(false);
   return (
@@ -141,14 +186,27 @@ const PostHead: React.FC<posthead> = ({ post, fetchData }) => {
         </div>
 
         <div className="ml-auto flex items-center">
-          <button
-            className="inline-flex ml-auto items-center px-3 py-2 text-sm font-medium text-center
+          {!current || !loged ? (
+            <button
+              className="inline-flex ml-auto items-center px-3 py-2 text-sm font-medium text-center
         text-white bg-gray-800 rounded-lg hover:opacity-90 focus:outline-none
         focus:ring-blue-300 gap-2"
-          >
-            {msgSvg}
-            Contacter Moi
-          </button>
+              onClick={contactHandler}
+            >
+              {msgSvg}
+              Contacter Moi
+            </button>
+          ) : (
+            <button
+              className="inline-flex ml-auto items-center px-3 py-2 text-sm font-medium text-center
+    text-white bg-gray-800 rounded-lg hover:opacity-90 focus:outline-none
+    focus:ring-blue-300 gap-2"
+              onClick={editHandler}
+            >
+              {penSvg}
+              Modifier
+            </button>
+          )}
         </div>
       </div>
       <div className="mt-14 ml-2 flex flex-col gap-5">
@@ -173,12 +231,18 @@ const PostHead: React.FC<posthead> = ({ post, fetchData }) => {
         <div className="text-gray-900 text-md font-semibold mb-3">
           <div className="flex items-center mb-3">
             {commentSvg}&nbsp;Commentaires
-            {user.reviews ? `(${user.reviews.length})` : " (0)"}
+            {` (${user.comments.length})`}
             <div className="ml-auto">
               <button
                 className="inline-flex ml-auto items-center px-3 py-2 md:text-sm text-xs font-medium text-center
         text-white bg-gray-800 rounded-lg hover:opacity-90 focus:outline-none gap-1"
-                onClick={() => setCommentAdd(!commentAdd)}
+                onClick={() => {
+                  if (!loged) {
+                    window.location.href = "/login";
+                  } else {
+                    setCommentAdd(!commentAdd);
+                  }
+                }}
               >
                 {plusSvg}
                 Ajouter un commentaire
@@ -186,6 +250,8 @@ const PostHead: React.FC<posthead> = ({ post, fetchData }) => {
             </div>
           </div>
           <PostComment
+            userData={userData}
+            current={current}
             post={post}
             commentAdd={commentAdd}
             setCommentAdd={setCommentAdd}

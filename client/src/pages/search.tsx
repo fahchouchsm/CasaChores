@@ -12,13 +12,16 @@ interface search {
 const Search: React.FC<search> = ({ loged, userData, autoCity }) => {
   const [typeCat, setTypeCat] = useState(0);
 
-  let { search } = useParams();
+  const { search } = useParams();
+
+  const [searchQuery, setSearchQuery] = useState<string | undefined>(search);
 
   return (
     <>
       <NavBar loged={loged} userData={userData} />
       <SearchFilter
-        search={search}
+        setSearchQuery={setSearchQuery}
+        searchQuery={searchQuery}
         autoCity={autoCity}
         typeCat={typeCat}
         setTypeCat={setTypeCat}

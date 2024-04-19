@@ -15,6 +15,7 @@ import EditAccount from "./pages/editAccout";
 import NewPost from "./pages/newPost";
 import Search from "./pages/search";
 import Post from "./pages/post";
+import Chat from "./pages/chat";
 
 export default function App() {
   const [loged, setLoged] = useState(false);
@@ -47,7 +48,7 @@ export default function App() {
       const position = await new Promise<GeolocationPosition>(
         (resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject);
-        },
+        }
       );
 
       const { latitude, longitude } = position.coords;
@@ -81,7 +82,7 @@ export default function App() {
         </Route>
         {/* Search */}
         <Route
-          path="/search/:category"
+          path="/search/:search"
           element={
             <Search loged={loged} userData={userData} autoCity={autoCity} />
           }
@@ -168,6 +169,13 @@ export default function App() {
           <Route
             path="/new/post"
             element={<NewPost loged={loged} userData={userData} />}
+          />
+        </>
+        {/* Chat */}
+        <>
+          <Route
+            path="/chat/:id?"
+            element={<Chat loged={loged} userData={userData} />}
           />
         </>
         <Route path="*" element={<E404 />} />

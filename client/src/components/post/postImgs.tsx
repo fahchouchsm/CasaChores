@@ -31,7 +31,7 @@ const PostImgs: React.FC<postImgs> = ({ post }) => {
 
   return (
     <>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid md:grid-cols-3 gap-4 lg:grid-cols-4 grid-cols-2">
         {post.images.slice(0, visibleContents).map((img: string, i: number) => {
           return (
             <img
@@ -50,14 +50,14 @@ const PostImgs: React.FC<postImgs> = ({ post }) => {
       {isModalOpen && (
         <div
           className="fixed top-0 left-0 w-screen h-screen bg-opacity-50 z-50 flex justify-center items-center bg-white"
-          onClick={() => () => setIsModalOpen(false)}
+          onClick={() => setIsModalOpen(false)}
         >
           <button
             className="absolute top-1 right-1 mr-5"
             onClick={() => setIsModalOpen(false)}
           >
             <svg
-              className="w-6 h-6 text-gray-800 dark:text-white"
+              className="w-8 h-8 text-gray-800"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -74,9 +74,15 @@ const PostImgs: React.FC<postImgs> = ({ post }) => {
               />
             </svg>
           </button>
-          <img src={post.images[selectedImg]} className="h-full" alt="" />
+          <img
+            src={post.images[selectedImg]}
+            className="h-full"
+            alt=""
+            onClick={(e) => e.stopPropagation()}
+          />
         </div>
       )}
+
       {post.images.length > visibleContents && (
         <button
           className="flex mx-auto items-center gap-1 text-gray-800 hover:bg-gray-200

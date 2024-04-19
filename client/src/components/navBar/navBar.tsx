@@ -44,7 +44,7 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
   }, [loged, navigate]);
 
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="h-16 bg-gray-800">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -84,7 +84,7 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
                             item.current
                               ? "bg-gray-900 text-white"
                               : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                            "rounded-md px-3 py-2 text-sm font-medium",
+                            "rounded-md px-3 py-2 text-sm font-medium"
                           )}
                           aria-current={item.current ? "page" : undefined}
                           onClick={item.event}
@@ -105,7 +105,7 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 18"
                         fill="currentColor"
-                        onClick={() => navigate("/msg")}
+                        onClick={() => navigate("/chat")}
                       >
                         <path
                           d="M18 4H16V9C16 10.0609 15.5786 11.0783 14.8284 11.8284C14.0783 12.5786 13.0609 13 12 13H9L6.846 14.615C7.17993 14.8628 7.58418 14.9977 8 15H11.667L15.4 17.8C15.5731 17.9298 15.7836 18 16 18C16.2652 18 16.5196 17.8946 16.7071 17.7071C16.8946 17.5196 17 17.2652 17 17V15H18C18.5304 15 19.0391 14.7893 19.4142 14.4142C19.7893 14.0391 20 13.5304 20 13V6C20 5.46957 19.7893 4.96086 19.4142 4.58579C19.0391 4.21071 18.5304 4 18 4Z"
@@ -125,11 +125,7 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full object-cover"
-                            src={
-                              userData.pfpLink
-                                ? userData.pfpLink
-                                : "/img/icons/defaultPpf.png"
-                            }
+                            src={userData.pfpLink}
                             alt=""
                           />
                         </Menu.Button>
@@ -152,10 +148,10 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
                               <button
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700 text-left w-full",
+                                  "block px-4 py-2 text-sm text-gray-700 text-left w-full"
                                 )}
                                 onClick={() =>
-                                  navigate(`/profile/${userData._id}`)
+                                  navigate(`/post/${userData._id}`)
                                 }
                               >
                                 Profile
@@ -167,7 +163,7 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
                               <button
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700 text-left w-full",
+                                  "block px-4 py-2 text-sm text-gray-700 text-left w-full"
                                 )}
                                 onClick={() =>
                                   navigate(`/settings/profile/${userData._id}`)
@@ -183,7 +179,7 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
                                 <button
                                   className={classNames(
                                     active ? "bg-gray-100" : "",
-                                    "block px-4 py-2 text-sm text-gray-700 text-left w-full",
+                                    "block px-4 py-2 text-sm text-gray-700 text-left w-full"
                                   )}
                                   onClick={() =>
                                     navigate(`/becomeseller/${userData._id}`)
@@ -202,7 +198,7 @@ const NavBar: React.FC<navbar> = ({ loged, userData }) => {
                               <button
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700 text-left w-full",
+                                  "block px-4 py-2 text-sm text-gray-700 text-left w-full"
                                 )}
                                 onClick={() => navigate("/logout")}
                               >

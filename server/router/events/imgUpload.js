@@ -31,15 +31,15 @@ router.post("/user/pfp", uploadPfp.single("image"), async (req, res) => {
     }`;
     try {
       const currentLink = await userSchema.findById(req.userId);
-      const updatedUser = await userSchema.findOneAndUpdate(
-        { _id: req.userId },
-        { $set: { pfpLink: imageUrl } },
-        { new: true }
-      );
-      const p = currentLink.pfpLink;
-      if (p) {
+
+      if (
+        currentLink.pfpLink !== "http://localhost:3001/uploads/pfp/default.png"
+      ) {
+        const p = currentLink.pfpLink;
         const pPath = p.split("/").pop();
         const imagePath = `uploads/pfp/${pPath}`;
+
+        // Delete the previous profile picture
         if (fs.existsSync(imagePath)) {
           fs.unlinkSync(imagePath);
           console.log(`Deleted profile picture: ${imagePath}`);
@@ -47,6 +47,14 @@ router.post("/user/pfp", uploadPfp.single("image"), async (req, res) => {
           console.log(`Profile picture not found at: ${imagePath}`);
         }
       }
+
+      // Update the user's profile picture link
+      const updatedUser = await userSchema.findOneAndUpdate(
+        { _id: req.userId },
+        { $set: { pfpLink: imageUrl } },
+        { new: true }
+      );
+
       res.status(201).json({ result: updatedUser });
     } catch (error) {
       console.error("Error updating user profile:", error);

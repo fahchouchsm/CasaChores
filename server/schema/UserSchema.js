@@ -23,7 +23,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-
   password: {
     type: String,
     required: true,
@@ -33,7 +32,6 @@ const userSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-
   dateRegister: {
     type: Date,
     default: Date.now(),
@@ -93,6 +91,17 @@ const userSchema = new mongoose.Schema({
           date: { type: Date, required: true },
         },
       ],
+      vote: [
+        {
+          user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+          },
+          vote: {
+            type: Boolean,
+          },
+        },
+      ],
     },
   ],
   comments: [
@@ -101,6 +110,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true,
+      },
+      star: {
+        type: Boolean,
+        default: false,
       },
       comment: {
         type: String,
@@ -111,6 +124,17 @@ const userSchema = new mongoose.Schema({
         default: Date.now(),
         required: true,
       },
+      vote: [
+        {
+          user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+          },
+          vote: {
+            type: Boolean,
+          },
+        },
+      ],
       replies: [
         {
           user: {

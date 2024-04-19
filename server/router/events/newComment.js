@@ -12,9 +12,13 @@ router.post("/comment", async (req, res) => {
 
   try {
     const userPost = await userSchema.findById(idPostUser);
+
+    const isOwner = userPost._id.equals(userId);
+
     const commentObj = {
       user: userId,
       comment,
+      star: isOwner ? true : false,
     };
     userPost.comments.push(commentObj);
     await userPost.save();

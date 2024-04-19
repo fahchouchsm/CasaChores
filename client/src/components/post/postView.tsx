@@ -4,7 +4,12 @@ import { useParams } from "react-router-dom";
 import PostHead from "./posthead";
 import Loading from "../../pages/loading";
 
-const PostView: React.FC = () => {
+interface postView {
+  userData: any;
+  loged: boolean;
+}
+
+const PostView: React.FC<postView> = ({ userData, loged }) => {
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState<any>();
   const { id } = useParams();
@@ -33,8 +38,13 @@ const PostView: React.FC = () => {
   }
 
   return (
-    <div className="sm:mx-20 md:mx-10 mt-8 mx-2">
-      <PostHead post={post} fetchData={fetchData} />
+    <div className="lg:mx-20 md:mx-10 mt-8 mx-3">
+      <PostHead
+        post={post}
+        loged={loged}
+        userData={userData}
+        fetchData={fetchData}
+      />
     </div>
   );
 };
