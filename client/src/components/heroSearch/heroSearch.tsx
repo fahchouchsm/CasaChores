@@ -108,10 +108,7 @@ const HeroSearch: React.FC<heroSearch> = ({
       <div className="flex flex-row w-full py-7 px-6 sm:px-10 items-center mx-auto h-full">
         {content}
         <div className="hidden md:block md:basis-3/5">
-          <img
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png"
-            alt="mockup"
-          />
+          <img src="main.png" alt="mockup" />
         </div>
       </div>
     </section>

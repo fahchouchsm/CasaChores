@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import ChatMsg from "../components/chat/chatMsg";
 import SideChat from "../components/chat/sideChat";
-import NavBar from "../components/navbar/navBar";
 import { useParams } from "react-router-dom";
+import NavBar from "../components/navbar/navBar";
 
 interface chat {
   loged: boolean;
