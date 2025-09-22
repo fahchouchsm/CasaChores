@@ -230,12 +230,10 @@ const PostHead: React.FC<posthead> = ({ post, fetchData, userData, loged }) => {
         </div>
         <div className="text-gray-900 text-md font-semibold mb-3">
           <div className="flex items-center mb-3">
-            {commentSvg}&nbsp;Commentaires
-            {` (${user.comments.length})`}
+            {commentSvg}&nbsp;Commentaires {` (${post?.comments?.length || 0})`}
             <div className="ml-auto">
               <button
-                className="inline-flex ml-auto items-center px-3 py-2 md:text-sm text-xs font-medium text-center
-        text-white bg-gray-800 rounded-lg hover:opacity-90 focus:outline-none gap-1"
+                className="inline-flex ml-auto items-center px-3 py-2 md:text-sm text-xs font-medium text-center text-white bg-gray-800 rounded-lg hover:opacity-90 focus:outline-none gap-1"
                 onClick={() => {
                   if (!loged) {
                     window.location.href = "/login";

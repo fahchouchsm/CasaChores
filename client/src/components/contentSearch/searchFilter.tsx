@@ -4,6 +4,7 @@ import SearchBar from "./searchBar";
 import SideFilter from "./sideFilter";
 import axios from "axios";
 import Loading from "../../pages/loading";
+import { fakePosts } from "../../fakePosts";
 
 interface SearchFilterProps {
   typeCat: number;
@@ -35,7 +36,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
           `http://localhost:3001/get/posts/${searchQuery}`,
           { typeCat, city: selCity, selCat }
         );
-        setPosts(result.data.response);
+        setPosts(fakePosts);
         setLoadingContent(false);
       };
       fetchData();

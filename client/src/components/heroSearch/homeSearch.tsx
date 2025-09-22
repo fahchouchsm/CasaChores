@@ -72,7 +72,7 @@ const HomeSearch: React.FC = () => {
         <input
           type="text"
           id="voice-search"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-900 focus:border-gray-800 block w-full ps-10 py-2.5"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-900 focus:border-gray-800 block w-8/12 ps-10 py-2.5"
           placeholder="Qu'y a-t-il sur votre liste de choses à faire ?"
           required
           autoComplete="off"

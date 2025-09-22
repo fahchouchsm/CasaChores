@@ -33,6 +33,8 @@ const ContentPersonnel: React.FC<ContentProps> = ({ posts, typeCat }) => {
     </svg>
   );
 
+ 
+
   return (
     <div className="flex flex-col gap-2">
       {posts && posts.length > 0 ? (
