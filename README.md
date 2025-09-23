@@ -1,8 +1,6 @@
 ```markdown
 # CasaChores
 
-Full-stack app for hiring pros - devs online or plumbers in-person. Smart search, real-time chat, secure auth with Twilio WhatsApp verify.
-
 ![Hero](readme/1.png) *Smart search with auto-location*
 
 ## Overview
